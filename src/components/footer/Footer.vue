@@ -2,10 +2,11 @@
 import GithubLink from "@/components/footer/GithubLink.vue";
 import List from "@/components/customUI/List.vue";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
+import HighlightedText from "@/components/footer/HighlightedText.vue";
 </script>
 
 <template>
-  <div class="w-full p-5">
+  <div class="w-full flex-center justify-between p-5">
     <List class="size-min text-muted-foreground/50 hover:text-primary transition-colors">
       <template #title>
         <SafeIcon icon="radix-icons:github-logo"/>
@@ -21,5 +22,12 @@ import SafeIcon from "@/components/customUI/SafeIcon.vue";
         </div>
       </template>
     </List>
+
+    <div class="flex-center gap-[0.5ch] text-muted-foreground/50">
+      <HighlightedText/>
+      <SafeIcon icon="tabler:heart-filled"/>
+    </div>
+
+    <div class="w-40"/>
   </div>
 </template>

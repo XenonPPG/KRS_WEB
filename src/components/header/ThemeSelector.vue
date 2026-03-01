@@ -27,7 +27,7 @@ watch(() => userData.colorTheme, () => {
 </script>
 
 <template>
-  <div class="relative" v-click-outside="() => open = false">
+  <div class="relative z-999" v-click-outside="() => open = false">
     <CircleButton @click="open = !open">
       <SafeIcon :icon="colorThemeIcons[userData.colorTheme]"/>
     </CircleButton>
