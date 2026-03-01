@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {Card, CardContent, CardHeader} from "@/components/ui/card";
-import RandomLineMock from "@/components/views/HomeView/RandomLineMock.vue";
+import RandomLineMock from "@/views/HomeView/RandomLineMock.vue";
 
 const props = defineProps<{
   showText: boolean
@@ -13,8 +13,8 @@ function RandomInt(min: number, max: number): number {
 
 <template>
   <Card class="px-3 py-5 animate-hover">
-    <CardHeader class="border-b-2 h-14">
-      <h4 v-if="showText">MyNote</h4>
+    <CardHeader class="border-b-2 items-end h-14">
+      <h4 v-if="showText" class="text-xl font-secondary">MyNote</h4>
     </CardHeader>
     <CardContent class="h-100 w-100">
       <template v-if="showText">

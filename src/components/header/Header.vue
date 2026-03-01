@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import {Button} from "@/components/ui/button";
 import HeaderLink from "@/components/header/HeaderLink.vue";
 import {Separator} from "@/components/ui/separator";
+import ThemeSelector from "@/components/header/ThemeSelector.vue";
 </script>
 
 <template>
@@ -11,6 +11,7 @@ import {Separator} from "@/components/ui/separator";
 
     <!-- other routes -->
     <HeaderLink link="/note"/>
-    <div/>
+
+    <ThemeSelector/>
   </div>
 </template>

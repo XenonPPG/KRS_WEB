@@ -9,11 +9,11 @@ import SafeIcon from "@/components/customUI/SafeIcon.vue";
     <List class="size-min text-muted-foreground/50 hover:text-primary transition-colors">
       <template #title>
         <SafeIcon icon="radix-icons:github-logo"/>
-        <span>Github</span>
+        <span class="font-secondary">Github</span>
       </template>
 
       <template #content>
-        <div class="flex flex-col items-start">
+        <div class="flex flex-col items-start font-secondary">
           <GithubLink link="https://github.com/XenonPPG/KRS_WEB" title="Фронтенд"/>
           <GithubLink link="https://github.com/XenonPPG/KRS_JWT" title="Бэкенд"/>
           <GithubLink link="https://github.com/XenonPPG/KRS_DB" title="База данных"/>

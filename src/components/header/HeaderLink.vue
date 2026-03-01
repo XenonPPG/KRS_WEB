@@ -14,7 +14,7 @@ const title = computed(() => router.options.routes.find(route => {
 </script>
 
 <template>
-  <Button variant="ghost" class="p-3 text-2xl font-normal" as-child>
+  <Button variant="ghost" class="p-3 text-2xl font-normal font-secondary" as-child>
     <RouterLink :to="props.link">
       {{ title }}
     </RouterLink>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import NoteMock from "@/components/views/HomeView/NoteMock.vue";
+import NoteMock from "@/views/HomeView/NoteMock.vue";
 </script>
 
 <template>
