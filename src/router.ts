@@ -13,6 +13,11 @@ const router = createRouter({
       name: 'Создать',
       component: () => import('@/views/NotesListView.vue')
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: '404',
+      component: () => import('@/views/Page404.vue')
+    }
   ],
 })
 
