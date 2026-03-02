@@ -3,16 +3,27 @@ import {createRouter, createWebHistory} from 'vue-router'
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
+        // TODO: replace main page with vault, replace this with AboutView
         {
             path: '/',
             name: 'KRS',
             component: () => import('@/views/HomeView/HomeView.vue')
         },
-        // TODO: pass arguments into component, use only one component
         {
-            path: '/auth',
-            name: 'Авторизация',
-            component: () => import('@/views/AuthView.vue')
+            path: '/login',
+            name: 'Войти',
+            component: () => import('@/views/AuthView/AuthView.vue'),
+            props: _ => ({
+                login: true
+            })
+        },
+        {
+            path: '/register',
+            name: 'Регистрация',
+            component: () => import('@/views/AuthView/AuthView.vue'),
+            props: _ => ({
+                login: false
+            })
         },
         {
             path: '/note',

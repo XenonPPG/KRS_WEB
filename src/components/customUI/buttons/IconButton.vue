@@ -12,7 +12,6 @@ const props = withDefaults(defineProps<{
 })
 </script>
 
-<!-- TODO: skeleton for loading icons -->
 <template>
   <Button v-bind="$attrs" class="text-xl flex justify-start">
     <template v-if="props.textStart">

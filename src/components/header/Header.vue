@@ -17,7 +17,16 @@ import HeaderAccountButton from "@/components/header/HeaderAccountButton.vue";
     </div>
 
     <div class="flex-center gap-2 h-5">
+      <!-- service status -->
+      <div class="flex-center gap-[0.5ch] mr-5">
+        <div class="rounded-full size-2 bg-red-500"/>
+        <p class="font-secondary">Сервис оффлайн</p>
+      </div>
+
+      <!-- color theme selector -->
       <ThemeSelector/>
+
+      <!-- user button -->
       <Separator orientation="vertical"/>
       <HeaderAccountButton/>
     </div>

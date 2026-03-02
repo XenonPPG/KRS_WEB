@@ -2,22 +2,23 @@
 import CircleButton from "@/components/customUI/buttons/CircleButton.vue";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
 import {useUserData} from "@/stores/userData.ts";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
 
 const router = useRouter()
+const route = useRoute()
 const userData = useUserData()
 
-function HandleClick(){
-  if(userData.loggedIn){
+function HandleClick() {
+  if (userData.loggedIn) {
     // TODO: open menu with account functions
-  } else {
-    router.push('/auth')
+  } else if (route.path != "/login" && route.path != "/register") {
+    router.push('/login')
   }
 }
 </script>
 
 <template>
-  <CircleButton @click="HandleClick">
+  <CircleButton @click="HandleClick" :class="{'border-dashed':!userData.loggedIn}">
     <SafeIcon icon="lucide:user"/>
   </CircleButton>
 </template>

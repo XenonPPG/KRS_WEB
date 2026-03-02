@@ -23,10 +23,7 @@ import HighlightedText from "@/components/footer/HighlightedText.vue";
       </template>
     </List>
 
-    <div class="flex-center gap-[0.5ch] text-muted-foreground/50">
-      <HighlightedText/>
-      <SafeIcon icon="tabler:heart-filled"/>
-    </div>
+    <HighlightedText/>
 
     <div class="w-40"/>
   </div>
