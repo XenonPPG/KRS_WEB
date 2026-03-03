@@ -17,6 +17,7 @@ import {serviceAPI} from "@/scripts/api/InitAPI.ts";
 import {useUserData} from "@/stores/userData.ts";
 import type {ColorTheme} from "@/scripts/colorTheme.ts";
 import {toast} from "vue-sonner";
+import type {UserV1ColorTheme} from "@/scripts/api/Api.ts";
 
 const formSchema = z.object({
   login: z.string().min(2, "Минимум 2 символа").max(50, "Слишком длинное имя"),
@@ -67,7 +68,7 @@ async function Login(){
   console.log(result)
 
   //TODO: repeat request few times and display error
-  if(result.status != 200) return
+  if (result.status < 200 || result.status >= 300) return
 
   userData.loggedIn = true
 
@@ -76,11 +77,30 @@ async function Login(){
   userData.name = user.name
   userData.colorTheme = user.colorTheme as ColorTheme
 
-  toast.success("Вы успешно вошли!")
+  toast.success("Добро пожаловать!")
 }
 
 async function Register(){
+  const result = await serviceAPI.userCreate({
+    login: form.values.login,
+    password: form.values.password,
+    role: 0,
+    colorTheme: (userData.colorTheme ?? 0) as unknown as UserV1ColorTheme
+  })
 
+  console.log(result)
+
+  //TODO: repeat request few times and display error
+  if (result.status < 200 || result.status >= 300) return
+
+  userData.loggedIn = true
+
+  const user = result.data.user
+  userData.id = user.id
+  userData.name = user.name
+  userData.colorTheme = user.colorTheme as ColorTheme
+
+  toast.success("Добро пожаловать!")
 }
 </script>
 
