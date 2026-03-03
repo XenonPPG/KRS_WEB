@@ -16,6 +16,7 @@ import {Separator} from "@/components/ui/separator";
 import {serviceAPI} from "@/scripts/api/InitAPI.ts";
 import {useUserData} from "@/stores/userData.ts";
 import type {ColorTheme} from "@/scripts/colorTheme.ts";
+import {toast} from "vue-sonner";
 
 const formSchema = z.object({
   login: z.string().min(2, "Минимум 2 символа").max(50, "Слишком длинное имя"),
@@ -75,6 +76,7 @@ async function Login(){
   userData.name = user.name
   userData.colorTheme = user.colorTheme as ColorTheme
 
+  toast.success("Вы успешно вошли!")
 }
 
 async function Register(){

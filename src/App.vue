@@ -2,6 +2,8 @@
 import Header from "@/components/header/Header.vue";
 import Footer from "@/components/footer/Footer.vue";
 import {useRoute, useRouter} from "vue-router";
+import {Toaster} from "vue-sonner";
+import 'vue-sonner/style.css'
 
 // update title
 const router = useRouter();
@@ -24,5 +26,7 @@ router.afterEach(() => {
     </div>
 
     <Footer/>
+
+    <Toaster/>
   </div>
 </template>
