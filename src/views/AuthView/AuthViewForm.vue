@@ -15,15 +15,14 @@ import {toTypedSchema} from '@vee-validate/zod';
 import {Separator} from "@/components/ui/separator";
 import {serviceAPI} from "@/scripts/api/InitAPI.ts";
 import {useUserData} from "@/stores/userData.ts";
-import type {ColorTheme} from "@/scripts/colorTheme.ts";
+import {type ColorTheme, colorThemeMap} from "@/scripts/colorTheme.ts";
 import {toast} from "vue-sonner";
-import type {UserV1ColorTheme} from "@/scripts/api/Api.ts";
 
 const formSchema = z.object({
   login: z.string().min(2, "Минимум 2 символа").max(50, "Слишком длинное имя"),
   password: z.string().min(5, "Минимум 6 символов").max(40, "Слишком длинный пароль"),
   confirmPassword: z.string()
-}).refine(data => data.password === data.confirmPassword, {
+}).refine(data => props.login || data.password === data.confirmPassword, {
   message: "Пароли не совпадают",
   path: ["confirmPassword"]
 });
@@ -37,8 +36,12 @@ const form = useForm({
   },
 });
 
-const onSubmit = form.handleSubmit((values) => {
-  console.log("Данные формы:", values);
+const onSubmit = form.handleSubmit(async (values) => {
+  if (props.login) {
+    await Login()
+  } else {
+    await Register()
+  }
 });
 
 const props = defineProps<{
@@ -50,14 +53,6 @@ function GetAuthLabel(login: boolean){
 }
 
 const userData = useUserData()
-
-async function HandleSubmit(){
-  if(props.login){
-    await Login()
-  } else {
-    await Register()
-  }
-}
 
 async function Login(){
   const result = await serviceAPI.authLoginCreate({
@@ -85,7 +80,7 @@ async function Register(){
     login: form.values.login,
     password: form.values.password,
     role: 0,
-    colorTheme: (userData.colorTheme ?? 0) as unknown as UserV1ColorTheme
+    colorTheme: colorThemeMap[userData.colorTheme] - 1
   })
 
   console.log(result)
@@ -150,7 +145,7 @@ async function Register(){
           </FormField>
         </div>
 
-        <Button @click="HandleSubmit" type="submit" class="w-full mb-30">Отправить</Button>
+        <Button type="submit" class="w-full mb-30">Отправить</Button>
       </form>
 
       <Button variant="secondary" class="w-30 flex justify-start" as-child>
