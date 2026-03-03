@@ -321,7 +321,7 @@ export class Api<
 > extends HttpClient<SecurityDataType> {
   api = {
     /**
-     * @description Authenticates a user and returns JWT access and refresh tokens
+     * @description Authenticates a user and returns JWT access, refresh tokens, user info
      *
      * @tags auth
      * @name AuthLoginCreate

@@ -13,10 +13,13 @@ import {z} from 'zod';
 import {useForm} from "vee-validate";
 import {toTypedSchema} from '@vee-validate/zod';
 import {Separator} from "@/components/ui/separator";
+import {serviceAPI} from "@/scripts/api/InitAPI.ts";
+import {useUserData} from "@/stores/userData.ts";
+import type {ColorTheme} from "@/scripts/colorTheme.ts";
 
 const formSchema = z.object({
   login: z.string().min(2, "Минимум 2 символа").max(50, "Слишком длинное имя"),
-  password: z.string().min(6, "Минимум 6 символов").max(40, "Слишком длинный пароль"),
+  password: z.string().min(5, "Минимум 6 символов").max(40, "Слишком длинный пароль"),
   confirmPassword: z.string()
 }).refine(data => data.password === data.confirmPassword, {
   message: "Пароли не совпадают",
@@ -43,6 +46,40 @@ const props = defineProps<{
 function GetAuthLabel(login: boolean){
   return login ? 'Войти' : 'Регистрация'
 }
+
+const userData = useUserData()
+
+async function HandleSubmit(){
+  if(props.login){
+    await Login()
+  } else {
+    await Register()
+  }
+}
+
+async function Login(){
+  const result = await serviceAPI.authLoginCreate({
+    login: form.values.login,
+    password: form.values.password
+  })
+
+  console.log(result)
+
+  //TODO: repeat request few times and display error
+  if(result.status != 200) return
+
+  userData.loggedIn = true
+
+  const user = result.data.user
+  userData.id = user.id
+  userData.name = user.name
+  userData.colorTheme = user.colorTheme as ColorTheme
+
+}
+
+async function Register(){
+
+}
 </script>
 
 <template>
@@ -50,11 +87,6 @@ function GetAuthLabel(login: boolean){
     <CardHeader>
       <div class="flex-center justify-between">
         <h1 class="text-2xl font-bold font-secondary">{{ GetAuthLabel(props.login) }}</h1>
-        <Button variant="default" class="w-30 flex justify-start" as-child>
-          <RouterLink :to="props.login ? '/register' : '/login'">
-            &gt; {{ GetAuthLabel(!props.login) }}
-          </RouterLink>
-        </Button>
       </div>
     </CardHeader>
 
@@ -96,8 +128,14 @@ function GetAuthLabel(login: boolean){
           </FormField>
         </div>
 
-        <Button type="submit" class="w-full mb-30">Отправить</Button>
+        <Button @click="HandleSubmit" type="submit" class="w-full mb-30">Отправить</Button>
       </form>
+
+      <Button variant="secondary" class="w-30 flex justify-start" as-child>
+        <RouterLink :to="props.login ? '/register' : '/login'">
+          &gt; {{ GetAuthLabel(!props.login) }}
+        </RouterLink>
+      </Button>
     </CardContent>
   </Card>
 </template>

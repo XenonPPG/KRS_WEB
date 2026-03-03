@@ -4,32 +4,22 @@ import {Separator} from "@/components/ui/separator";
 import ThemeSelector from "@/components/header/ThemeSelector.vue";
 import HeaderAccountButton from "@/components/header/HeaderAccountButton.vue";
 import {onMounted, ref} from "vue";
-import {api} from "@/api/InitAPI.ts";
+import {serviceAPI} from "@/scripts/api/InitAPI.ts";
 
 const received = ref(false)
 const status = ref(false)
 
 onMounted(() => {
-  const check = async () => {
-    const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 2000)
-
+  setInterval(async () => {
     try {
-      const res = await api.healthList({
-        signal: controller.signal,
-      })
+      const res = await serviceAPI.healthList()
       received.value = true
       status.value = res.status === 200
     } catch {
       received.value = true
       status.value = false
-    } finally {
-      clearTimeout(timeout)
     }
-  }
-
-  check()
-  setInterval(check, 1000)
+  }, 1000)
 })
 </script>
 
