@@ -3,6 +3,34 @@ import HeaderLink from "@/components/header/HeaderLink.vue";
 import {Separator} from "@/components/ui/separator";
 import ThemeSelector from "@/components/header/ThemeSelector.vue";
 import HeaderAccountButton from "@/components/header/HeaderAccountButton.vue";
+import {onMounted, ref} from "vue";
+import {api} from "@/api/InitAPI.ts";
+
+const received = ref(false)
+const status = ref(false)
+
+onMounted(() => {
+  const check = async () => {
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 2000)
+
+    try {
+      const res = await api.healthList({
+        signal: controller.signal,
+      })
+      received.value = true
+      status.value = res.status === 200
+    } catch {
+      received.value = true
+      status.value = false
+    } finally {
+      clearTimeout(timeout)
+    }
+  }
+
+  check()
+  setInterval(check, 1000)
+})
 </script>
 
 <template>
@@ -18,9 +46,9 @@ import HeaderAccountButton from "@/components/header/HeaderAccountButton.vue";
 
     <div class="flex-center gap-2 h-5">
       <!-- service status -->
-      <div class="flex-center gap-[0.5ch] mr-5">
-        <div class="rounded-full size-2 bg-red-500"/>
-        <p class="font-secondary">Сервис оффлайн</p>
+      <div v-if="received" class="flex-center gap-[0.5ch] mr-5" v-motion-fade>
+        <div class="rounded-full size-2 bg-red-500" :class="{'bg-green-500!':status}"/>
+        <p class="font-secondary">Сервис {{ status ? 'онлайн' : 'оффлайн' }}</p>
       </div>
 
       <!-- color theme selector -->

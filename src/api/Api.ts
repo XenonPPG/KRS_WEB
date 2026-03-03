@@ -319,18 +319,21 @@ export class HttpClient<SecurityDataType = unknown> {
 export class Api<
   SecurityDataType extends unknown,
 > extends HttpClient<SecurityDataType> {
-  auth = {
+  api = {
     /**
      * @description Authenticates a user and returns JWT access and refresh tokens
      *
      * @tags auth
-     * @name LoginCreate
+     * @name AuthLoginCreate
      * @summary User login
-     * @request POST:/auth/login
+     * @request POST:/api/auth/login
      */
-    loginCreate: (request: UserV1LoginRequest, params: RequestParams = {}) =>
+    authLoginCreate: (
+      request: UserV1LoginRequest,
+      params: RequestParams = {},
+    ) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/auth/login`,
+        path: `/api/auth/login`,
         method: "POST",
         body: request,
         type: ContentType.Json,
@@ -342,13 +345,13 @@ export class Api<
      * @description Logs out the user by invalidating refresh token and clearing cookies
      *
      * @tags auth
-     * @name LogoutCreate
+     * @name AuthLogoutCreate
      * @summary User logout
-     * @request POST:/auth/logout
+     * @request POST:/api/auth/logout
      */
-    logoutCreate: (params: RequestParams = {}) =>
+    authLogoutCreate: (params: RequestParams = {}) =>
       this.request<Record<string, any>, any>({
-        path: `/auth/logout`,
+        path: `/api/auth/logout`,
         method: "POST",
         format: "json",
         ...params,
@@ -358,45 +361,44 @@ export class Api<
      * @description Rotates refresh token and issues new access and refresh tokens
      *
      * @tags auth
-     * @name RefreshCreate
+     * @name AuthRefreshCreate
      * @summary Refresh access tokens
-     * @request POST:/auth/refresh
+     * @request POST:/api/auth/refresh
      */
-    refreshCreate: (params: RequestParams = {}) =>
+    authRefreshCreate: (params: RequestParams = {}) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/auth/refresh`,
+        path: `/api/auth/refresh`,
         method: "POST",
         format: "json",
         ...params,
       }),
-  };
-  health = {
+
     /**
      * @description Returns the health status of the application
      *
      * @tags health
      * @name HealthList
      * @summary Health check endpoint
-     * @request GET:/health
+     * @request GET:/api/health
      */
     healthList: (params: RequestParams = {}) =>
-      this.request<string, any>({
-        path: `/health`,
+      this.request<Record<string, any>, any>({
+        path: `/api/health`,
         method: "GET",
+        format: "json",
         ...params,
       }),
-  };
-  notes = {
+
     /**
      * @description Retrieves all notes for the authenticated user with pagination
      *
      * @tags notes
-     * @name NotesList
+     * @name NoteList
      * @summary Get all notes
-     * @request GET:/notes
+     * @request GET:/api/note
      * @secure
      */
-    notesList: (
+    noteList: (
       query?: {
         /** Limit number of notes */
         limit?: number;
@@ -406,7 +408,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/notes`,
+        path: `/api/note`,
         method: "GET",
         query: query,
         secure: true,
@@ -418,14 +420,14 @@ export class Api<
      * @description Updates an existing note for the authenticated user
      *
      * @tags notes
-     * @name NotesUpdate
+     * @name NoteUpdate
      * @summary Update a note
-     * @request PUT:/notes
+     * @request PUT:/api/note
      * @secure
      */
-    notesUpdate: (note: NoteV1UpdateNoteRequest, params: RequestParams = {}) =>
+    noteUpdate: (note: NoteV1UpdateNoteRequest, params: RequestParams = {}) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/notes`,
+        path: `/api/note`,
         method: "PUT",
         body: note,
         secure: true,
@@ -438,14 +440,14 @@ export class Api<
      * @description Creates a new note for the authenticated user
      *
      * @tags notes
-     * @name NotesCreate
+     * @name NoteCreate
      * @summary Create a new note
-     * @request POST:/notes
+     * @request POST:/api/note
      * @secure
      */
-    notesCreate: (note: NoteV1CreateNoteRequest, params: RequestParams = {}) =>
+    noteCreate: (note: NoteV1CreateNoteRequest, params: RequestParams = {}) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/notes`,
+        path: `/api/note`,
         method: "POST",
         body: note,
         secure: true,
@@ -458,14 +460,14 @@ export class Api<
      * @description Retrieves a specific note by ID for the authenticated user
      *
      * @tags notes
-     * @name NotesDetail
+     * @name NoteDetail
      * @summary Get a specific note
-     * @request GET:/notes/{id}
+     * @request GET:/api/note/{id}
      * @secure
      */
-    notesDetail: (id: number, params: RequestParams = {}) =>
+    noteDetail: (id: number, params: RequestParams = {}) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/notes/${id}`,
+        path: `/api/note/${id}`,
         method: "GET",
         secure: true,
         format: "json",
@@ -476,31 +478,30 @@ export class Api<
      * @description Deletes a specific note by ID for the authenticated user
      *
      * @tags notes
-     * @name NotesDelete
+     * @name NoteDelete
      * @summary Delete a note
-     * @request DELETE:/notes/{id}
+     * @request DELETE:/api/note/{id}
      * @secure
      */
-    notesDelete: (id: number, params: RequestParams = {}) =>
+    noteDelete: (id: number, params: RequestParams = {}) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/notes/${id}`,
+        path: `/api/note/${id}`,
         method: "DELETE",
         secure: true,
         format: "json",
         ...params,
       }),
-  };
-  users = {
+
     /**
      * @description Retrieves all users with pagination
      *
      * @tags users
-     * @name UsersList
+     * @name UserList
      * @summary Get all users
-     * @request GET:/users
+     * @request GET:/api/user
      * @secure
      */
-    usersList: (
+    userList: (
       query?: {
         /** Limit number of results */
         limit?: number;
@@ -510,7 +511,7 @@ export class Api<
       params: RequestParams = {},
     ) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/users`,
+        path: `/api/user`,
         method: "GET",
         query: query,
         secure: true,
@@ -523,17 +524,17 @@ export class Api<
      * @description Updates an existing user's information
      *
      * @tags users
-     * @name UsersUpdate
+     * @name UserUpdate
      * @summary Update a user
-     * @request PUT:/users
+     * @request PUT:/api/user
      * @secure
      */
-    usersUpdate: (
+    userUpdate: (
       request: UserV1UpdateUserRequest,
       params: RequestParams = {},
     ) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/users`,
+        path: `/api/user`,
         method: "PUT",
         body: request,
         secure: true,
@@ -546,16 +547,16 @@ export class Api<
      * @description Creates a new user account with hashed password
      *
      * @tags users
-     * @name UsersCreate
+     * @name UserCreate
      * @summary Create a new user
-     * @request POST:/users
+     * @request POST:/api/user
      */
-    usersCreate: (
+    userCreate: (
       request: UserV1CreateUserRequest,
       params: RequestParams = {},
     ) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/users`,
+        path: `/api/user`,
         method: "POST",
         body: request,
         type: ContentType.Json,
@@ -567,14 +568,14 @@ export class Api<
      * @description Updates the password for the authenticated user
      *
      * @tags users
-     * @name PasswordUpdate
+     * @name UserPasswordUpdate
      * @summary Update user password
-     * @request PUT:/users/password
+     * @request PUT:/api/user/password
      * @secure
      */
-    passwordUpdate: (params: RequestParams = {}) =>
+    userPasswordUpdate: (params: RequestParams = {}) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/users/password`,
+        path: `/api/user/password`,
         method: "PUT",
         secure: true,
         type: ContentType.Json,
@@ -586,14 +587,14 @@ export class Api<
      * @description Retrieves a specific user by ID
      *
      * @tags users
-     * @name UsersDetail
+     * @name UserDetail
      * @summary Get a user by ID
-     * @request GET:/users/{id}
+     * @request GET:/api/user/{id}
      * @secure
      */
-    usersDetail: (id: number, params: RequestParams = {}) =>
+    userDetail: (id: number, params: RequestParams = {}) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/users/${id}`,
+        path: `/api/user/${id}`,
         method: "GET",
         secure: true,
         type: ContentType.Json,
@@ -605,14 +606,14 @@ export class Api<
      * @description Deletes a specific user by ID
      *
      * @tags users
-     * @name UsersDelete
+     * @name UserDelete
      * @summary Delete a user
-     * @request DELETE:/users/{id}
+     * @request DELETE:/api/user/{id}
      * @secure
      */
-    usersDelete: (id: number, params: RequestParams = {}) =>
+    userDelete: (id: number, params: RequestParams = {}) =>
       this.request<Record<string, any>, Record<string, any>>({
-        path: `/users/${id}`,
+        path: `/api/user/${id}`,
         method: "DELETE",
         secure: true,
         type: ContentType.Json,
