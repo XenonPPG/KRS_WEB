@@ -86,7 +86,7 @@ function GetAuthLabel(login: boolean){
 
           <!-- repeat password -->
           <FormField v-if="!login" v-slot="{ componentField }" name="confirmPassword">
-            <FormItem>
+            <FormItem v-motion-slide-bottom>
               <FormLabel>Подтвердите пароль</FormLabel>
               <FormControl>
                 <Input type="password" v-bind="componentField"/>
