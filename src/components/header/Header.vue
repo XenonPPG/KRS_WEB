@@ -5,21 +5,20 @@ import ThemeSelector from "@/components/header/ThemeSelector.vue";
 import HeaderAccountButton from "@/components/header/HeaderAccountButton.vue";
 import {onMounted, ref} from "vue";
 import {serviceAPI} from "@/scripts/api/InitAPI.ts";
+import {Skeleton} from "@/components/ui/skeleton";
 
 const received = ref(false)
 const status = ref(false)
 
-onMounted(() => {
-  setInterval(async () => {
-    try {
-      const res = await serviceAPI.healthList()
-      received.value = true
-      status.value = res.status === 200
-    } catch {
-      received.value = true
-      status.value = false
-    }
-  }, 1000)
+onMounted(async () => {
+  try {
+    const res = await serviceAPI.healthList()
+    received.value = true
+    status.value = res.status === 200
+  } catch {
+    received.value = true
+    status.value = false
+  }
 })
 </script>
 
@@ -36,10 +35,11 @@ onMounted(() => {
 
     <div class="flex-center gap-2 h-5">
       <!-- service status -->
-      <div v-if="received" class="flex-center gap-[0.5ch] mr-5" v-motion-fade>
+      <div v-if="received" class="flex-center gap-[0.5ch] mr-5">
         <div class="rounded-full size-2 bg-red-500" :class="{'bg-green-500!':status}"/>
         <p class="font-secondary">Сервис {{ status ? 'онлайн' : 'оффлайн' }}</p>
       </div>
+      <Skeleton v-else class="h-[2ch] w-[20ch]"/>
 
       <!-- color theme selector -->
       <ThemeSelector/>
