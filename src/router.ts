@@ -26,6 +26,11 @@ const router = createRouter({
             })
         },
         {
+            path: '/jwt',
+            name: 'JWT',
+            component: () => import('@/views/JWTView/JWTView.vue')
+        },
+        {
             path: '/note',
             name: 'Создать',
             component: () => import('@/views/NotesListView.vue')

@@ -6,6 +6,7 @@ import {onMounted, ref, watch} from "vue";
 import {useUserData} from "@/stores/userData.ts";
 import {useColorMode} from "@vueuse/core";
 
+// FIXME: moon doesnt appear when logged in
 const colorThemeIcons = {
   [ColorTheme.Auto]: 'radix-icons:half-2',
   [ColorTheme.Light]: 'radix-icons:sun',

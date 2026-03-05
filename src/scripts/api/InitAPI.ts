@@ -1,11 +1,11 @@
-import { Api } from '@/scripts/api/Api.ts'
+import {Api} from '@/scripts/api/Api.ts'
 
 // fetch handler with timeout
 const withTimeout = (ms: number) => (input: RequestInfo | URL, init?: RequestInit) => {
     const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), ms)
+    const timeout = setTimeout(() => controller.abort("API Timeout"), ms)
 
-    return fetch(input, { ...init, signal: controller.signal })
+    return fetch(input, {...init, signal: controller.signal})
         .finally(() => clearTimeout(timeout))
 }
 
