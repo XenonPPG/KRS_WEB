@@ -31,6 +31,7 @@ onMounted(async () => {
       <!-- other routes -->
       <HeaderLink link="/note"/>
       <HeaderLink link="/vault"/>
+      <HeaderLink link="/jwt"/>
     </div>
 
     <div class="flex-center gap-2 h-5">

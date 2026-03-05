@@ -58,8 +58,8 @@ onMounted(async () => {
       <RouterView/>
     </div>
 
-    <Footer/>
-
     <Toaster/>
+
+    <Footer/>
   </div>
 </template>
