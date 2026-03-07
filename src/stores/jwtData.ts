@@ -14,5 +14,5 @@ export const useJWTData = defineStore('JWT data', () => {
         [accessToken.value, payload.value] = result
     }
 
-    return {accessToken, payload}
+    return {accessToken, payload, LoadData}
 })

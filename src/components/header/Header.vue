@@ -6,6 +6,7 @@ import HeaderAccountButton from "@/components/header/HeaderAccountButton.vue";
 import {onMounted, ref} from "vue";
 import {serviceAPI} from "@/scripts/api/InitAPI.ts";
 import {Skeleton} from "@/components/ui/skeleton";
+import {useUserData} from "@/stores/userData.ts";
 
 const received = ref(false)
 const status = ref(false)
@@ -20,6 +21,8 @@ onMounted(async () => {
     status.value = false
   }
 })
+
+const userData = useUserData()
 </script>
 
 <template>
@@ -31,7 +34,7 @@ onMounted(async () => {
       <!-- other routes -->
       <HeaderLink link="/note"/>
       <HeaderLink link="/vault"/>
-      <HeaderLink link="/jwt"/>
+      <HeaderLink v-if="userData.loggedIn" link="/jwt"/>
     </div>
 
     <div class="flex-center gap-2 h-5">

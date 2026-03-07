@@ -10,7 +10,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <WithTooltip :text="props.link">
+  <WithTooltip :text="props.link" :side="'right'" :delay="0">
     <a :href="props.link"
        target="_blank"
        class="flex-center items-start justify-start gap-2 whitespace-nowrap w-full">
