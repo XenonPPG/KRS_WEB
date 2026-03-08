@@ -3,10 +3,13 @@ import {serviceAPI} from "@/scripts/api/InitAPI.ts";
 import {IsSuccessful} from "@/scripts/utils.ts";
 import {toast} from "vue-sonner";
 import {useUserData} from "@/stores/userData.ts";
+import {pinia} from "@/main.ts";
 
 export async function InitialLogin() {
-    const jwtData = useJWTData()
-    const userData = useUserData()
+    const jwtData = useJWTData(pinia)
+    const userData = useUserData(pinia)
+
+    if (userData.initialized) return
 
     // get jwt data
     jwtData.LoadData()
@@ -35,4 +38,5 @@ export async function InitialLogin() {
     userData.id = user.id
     userData.name = user.name
     userData.colorTheme = user.colorTheme
+    userData.initialized = true
 }
