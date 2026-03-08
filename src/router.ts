@@ -39,7 +39,7 @@ const router = createRouter({
         {
             path: '/note',
             name: 'Создать',
-            component: () => import('@/views/NotesListView.vue'),
+            component: () => import('@/views/CreateNoteView.vue'),
             meta: {
                 requiresAuth: true
             }

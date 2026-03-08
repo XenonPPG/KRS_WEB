@@ -27,15 +27,12 @@ export enum UserV1ColorTheme {
 export interface NoteV1CreateNoteRequest {
   content?: string;
   title?: string;
-  userID?: number;
 }
 
 export interface NoteV1UpdateNoteRequest {
   content?: string;
   id?: number;
   title?: string;
-  /** for checking if note is owned by requesting user */
-  userID?: number;
 }
 
 export interface UserV1CreateUserRequest {
