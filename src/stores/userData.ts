@@ -8,5 +8,14 @@ export const useUserData = defineStore('user data', () => {
     const name = ref('')
     const colorTheme = ref<ColorTheme>(ColorTheme.Auto)
 
-    return {id, loggedIn, name, colorTheme}
+    function Logout(){
+        loggedIn.value = false
+        id.value = 0
+        name.value = ''
+        colorTheme.value = ColorTheme.Auto
+
+        console.log('Logged out')
+    }
+
+    return {id, loggedIn, name, colorTheme, Logout}
 })

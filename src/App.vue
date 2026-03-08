@@ -9,6 +9,8 @@ import {onMounted} from "vue";
 import {useUserData} from "@/stores/userData.ts";
 import {serviceAPI} from "@/scripts/api/InitAPI.ts";
 import {useJWTData} from "@/stores/jwtData.ts";
+import {IsSuccessful} from "@/scripts/utils.ts";
+import {InitialLogin} from "@/scripts/api/initialLogin.ts";
 
 // update title
 const router = useRouter();
@@ -25,23 +27,7 @@ const userData = useUserData()
 const jwtData = useJWTData()
 
 // update user data
-onMounted(async () => {
-  // get jwt data
-  jwtData.LoadData()
-
-  // get user
-  const res = await serviceAPI.userDetail((jwtData.payload as any).user_id)
-  const user = res.data.user
-  if (!user){
-    toast.error("Не удалось загрузить данные")
-    return
-  }
-
-  userData.loggedIn = true
-  userData.id = user.id
-  userData.name = user.name
-  userData.colorTheme = user.colorTheme
-})
+onMounted(InitialLogin)
 </script>
 
 <template>

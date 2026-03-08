@@ -17,6 +17,7 @@ import {serviceAPI} from "@/scripts/api/InitAPI.ts";
 import {useUserData} from "@/stores/userData.ts";
 import {type ColorTheme, colorThemeMap} from "@/scripts/colorTheme.ts";
 import {toast} from "vue-sonner";
+import {IsSuccessful} from "@/scripts/utils.ts";
 
 const formSchema = z.object({
   login: z.string().min(2, "Минимум 2 символа").max(50, "Слишком длинное имя"),
@@ -63,7 +64,7 @@ async function Login(){
   console.log(result)
 
   //TODO: repeat request few times and display error
-  if (result.status < 200 || result.status >= 300) return
+  if (!IsSuccessful(result.status)) return
 
   userData.loggedIn = true
 
@@ -86,7 +87,7 @@ async function Register(){
   console.log(result)
 
   //TODO: repeat request few times and display error
-  if (result.status < 200 || result.status >= 300) return
+  if (!IsSuccessful(result.status)) return
 
   userData.loggedIn = true
 

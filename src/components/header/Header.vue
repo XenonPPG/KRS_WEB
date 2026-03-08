@@ -7,6 +7,7 @@ import {onMounted, ref} from "vue";
 import {serviceAPI} from "@/scripts/api/InitAPI.ts";
 import {Skeleton} from "@/components/ui/skeleton";
 import {useUserData} from "@/stores/userData.ts";
+import {IsSuccessful} from "@/scripts/utils.ts";
 
 const received = ref(false)
 const status = ref(false)
@@ -15,7 +16,7 @@ onMounted(async () => {
   try {
     const res = await serviceAPI.healthList()
     received.value = true
-    status.value = res.status === 200
+    status.value = IsSuccessful(res.status)
   } catch {
     received.value = true
     status.value = false
