@@ -6,6 +6,7 @@ import ColoredJSON from "@/views/JWTView/ColoredJSON.vue";
 import JWTJSONViewCard from "@/views/JWTView/JWTJSONViewCard.vue";
 
 const jwtData = useJWTData()
+jwtData.LoadData()
 </script>
 
 <template>

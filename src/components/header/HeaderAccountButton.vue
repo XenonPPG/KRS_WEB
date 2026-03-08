@@ -32,7 +32,7 @@ function SwitchAccount() {
 async function Logout() {
   const res = await serviceAPI.authLogoutCreate()
 
-  if(!IsSuccessful(res.status)){
+  if (!IsSuccessful(res.status)) {
     toast.error("Произошла ошибка")
     return
   }
@@ -42,16 +42,24 @@ async function Logout() {
   open.value = false
 
   await InitialLogin()
+      .then(_ => window.location.reload())
+      .then(_ => toast.info("Вы вышли из аккаунта"))
 }
 </script>
 
 <template>
   <div class="relative">
-    <CircleButton @click="HandleClick" :class="{'border-dashed':!userData.loggedIn}">
+    <CircleButton
+        v-click-outside="() => open = false"
+        @click="HandleClick"
+        :class="{'border-dashed':!userData.loggedIn}">
       <SafeIcon icon="lucide:user"/>
     </CircleButton>
 
-    <Card v-if="open" v-motion-slide-top class="absolute right-0 mt-1 p-0 gap-0 items-start z-999">
+    <Card
+        v-if="open"
+        v-motion-slide-top
+        class="absolute right-0 mt-1 p-0 gap-0 items-start z-999">
       <Button @click="SwitchAccount" variant="ghost" class="w-full">
         <SafeIcon icon="lucide:arrow-right-left"/>
         <p>Сменить аккаунт</p>

@@ -12,6 +12,7 @@ const props = defineProps<{
 const tableView = ref(true)
 
 const jsonText = computed(() => {
+  if (!props.json) return "{}"
   if (typeof props.json === 'string') return props.json
 
   return JSON.stringify(props.json)
