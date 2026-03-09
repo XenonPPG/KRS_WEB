@@ -35,7 +35,7 @@ const buttonFunctions = [
 <template>
   <JWTViewCard
       :title="props.title"
-      :content="props.json as string"
+      :content="jsonText"
       :show-text="false"
       :buttons="[(tableView ? buttonFunctions[0] : buttonFunctions[1]) as ButtonFunction]">
 

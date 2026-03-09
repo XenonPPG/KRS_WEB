@@ -23,12 +23,12 @@ const props = withDefaults(defineProps<{
     })
 
 const functions = computed(() => [
+  ...(props.buttons ?? []),
   {
     name: 'Скопировать',
     icon: 'radix-icons:copy',
-    func: () => CopyText(props.content)
+    func: () => CopyText(props.content.toString())
   },
-  ...(props.buttons ?? []),
 ])
 </script>
 
