@@ -47,7 +47,7 @@ const router = createRouter({
         {
             path: '/vault',
             name: 'Хранилище',
-            component: () => import('@/views/NotesListView.vue'),
+            component: () => import('@/views/VaultView/VaultView.vue'),
             meta: {
                 requiresAuth: true
             }

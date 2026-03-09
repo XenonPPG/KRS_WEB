@@ -320,7 +320,7 @@ export class Api<
     /**
      * @description Authenticates a user and returns JWT access, refresh tokens, user info
      *
-     * @tags auth
+     * @tags Authentication
      * @name AuthLoginCreate
      * @summary User login
      * @request POST:/api/auth/login
@@ -341,7 +341,7 @@ export class Api<
     /**
      * @description Logs out the user by invalidating refresh token and clearing cookies
      *
-     * @tags auth
+     * @tags Authentication
      * @name AuthLogoutCreate
      * @summary User logout
      * @request POST:/api/auth/logout
@@ -357,7 +357,7 @@ export class Api<
     /**
      * @description Rotates refresh token and issues new access and refresh tokens
      *
-     * @tags auth
+     * @tags Authentication
      * @name AuthRefreshCreate
      * @summary Refresh access tokens
      * @request POST:/api/auth/refresh

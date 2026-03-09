@@ -10,22 +10,24 @@ jwtData.LoadData()
 </script>
 
 <template>
-  <div class="grid grid-cols-2 gap-3">
-    <!-- text -->
-    <div class="flex items-center">
-      <h1>Демонстрация<br>JWT токена</h1>
+  <div class="flex-center flex-1 flex-col">
+    <div class="grid grid-cols-2 gap-3 flex-1 px-10">
+      <!-- text -->
+      <div class="flex items-center">
+        <h1>Демонстрация<br>JWT токена</h1>
+      </div>
+
+      <!-- header -->
+      <JWTJSONViewCard
+          title="Заголовок"
+          json='{"alg": "HS256","typ": "JWT"}'
+          :description="{'alg':'Алгоритм', 'typ':'Тип токена'}"/>
+
+      <!-- access token -->
+      <JWTViewCard title="Access Token" :content="jwtData.accessToken"/>
+
+      <!-- payload -->
+      <JWTJSONViewCard title="Содержимое" :json="jwtData.payload as object"/>
     </div>
-
-    <!-- header -->
-    <JWTJSONViewCard
-        title="Заголовок"
-        json='{"alg": "HS256","typ": "JWT"}'
-        :description="{'alg':'Алгоритм', 'typ':'Тип токена'}"/>
-
-    <!-- access token -->
-    <JWTViewCard title="Access Token" :content="jwtData.accessToken"/>
-
-    <!-- payload -->
-    <JWTJSONViewCard title="Содержимое" :json="jwtData.payload as object"/>
   </div>
 </template>

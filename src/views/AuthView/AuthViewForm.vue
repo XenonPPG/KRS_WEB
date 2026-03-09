@@ -49,13 +49,13 @@ const props = defineProps<{
   login: boolean
 }>()
 
-function GetAuthLabel(login: boolean){
+function GetAuthLabel(login: boolean) {
   return login ? 'Войти' : 'Регистрация'
 }
 
 const userData = useUserData()
 
-async function Login(){
+async function Login() {
   const result = await serviceAPI.authLoginCreate({
     login: form.values.login,
     password: form.values.password
@@ -76,7 +76,7 @@ async function Login(){
   toast.success("Добро пожаловать!")
 }
 
-async function Register(){
+async function Register() {
   const result = await serviceAPI.userCreate({
     login: form.values.login,
     password: form.values.password,
@@ -89,14 +89,7 @@ async function Register(){
   //TODO: repeat request few times and display error
   if (!IsSuccessful(result.status)) return
 
-  userData.loggedIn = true
-
-  const user = result.data.user
-  userData.id = user.id
-  userData.name = user.name
-  userData.colorTheme = user.colorTheme as ColorTheme
-
-  toast.success("Добро пожаловать!")
+  await Login()
 }
 </script>
 

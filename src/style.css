@@ -144,3 +144,7 @@
 @utility flex-center {
     @apply flex items-center justify-center;
 }
+
+html{
+    scrollbar-width: none;
+}

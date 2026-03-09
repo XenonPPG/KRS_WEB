@@ -43,32 +43,33 @@ async function CreateNote(){
   }
 
   toast.info("Создано!")
-  await router.push('/vault')
 }
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
-    <Card>
-      <CardHeader>
-        <input v-model="title" placeholder="Заголовок" class="text-3xl outline-none w-100"/>
-      </CardHeader>
+  <div class="flex-center flex-col flex-1">
+    <div class="flex flex-col gap-1">
+      <Card>
+        <CardHeader>
+          <input v-model="title" placeholder="Заголовок" class="text-3xl outline-none w-100"/>
+        </CardHeader>
 
-      <CardContent>
-        <Textarea v-model="content" class="w-100 max-h-100 text-lg!" placeholder="Содержание"/>
-      </CardContent>
-    </Card>
+        <CardContent>
+          <Textarea v-model="content" class="w-100 max-h-100 h-100 text-lg!" placeholder="Содержание"/>
+        </CardContent>
+      </Card>
 
-    <div class="flex gap-1">
-      <Button variant="outline" @click="AddTime">
-        <SafeIcon icon="lucide:calendar-clock"/>
-        Добавить время
-      </Button>
+      <div class="flex gap-1">
+        <Button variant="outline" @click="AddTime">
+          <SafeIcon icon="lucide:calendar-clock"/>
+          Добавить время
+        </Button>
 
-      <Button variant="outline" @click="CreateNote">
-        <SafeIcon icon="lucide:send"/>
-        Создать
-      </Button>
+        <Button variant="outline" @click="CreateNote">
+          <SafeIcon icon="lucide:send"/>
+          Создать
+        </Button>
+      </div>
     </div>
   </div>
 </template>

@@ -5,7 +5,7 @@ import {Button} from "@/components/ui/button";
 </script>
 
 <template>
-  <div class="flex items-center justify-between w-full px-20">
+  <div class="flex items-center justify-between w-full px-20 flex-1">
     <div v-motion-slide-bottom class="flex flex-col items-start">
       <h1 class="text-[120px]">KRS</h1>
       <h2>Ваш сервис с JWT аутентификацией</h2>

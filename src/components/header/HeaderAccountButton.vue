@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import CircleButton from "@/components/customUI/buttons/CircleButton.vue";
+import CircleButton from "@/components/customUI/CircleButton.vue";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
 import {useUserData} from "@/stores/userData.ts";
 import {useRoute, useRouter} from "vue-router";

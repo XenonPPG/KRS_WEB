@@ -29,7 +29,7 @@ router.afterEach(() => {
   <div class="min-h-screen flex flex-col justify-between">
     <Header/>
 
-    <div class="flex-center flex-col">
+    <div class="flex flex-col flex-1 w-full">
       <RouterView/>
     </div>
 

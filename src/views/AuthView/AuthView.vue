@@ -8,12 +8,14 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="flex gap-10 overflow-hidden">
-    <div class="flex-1">
-      <AuthViewForm :login="props.login"/>
-    </div>
-    <div class="flex-1">
-      <AuthViewDecoration/>
+  <div class="flex-center flex-col flex-1">
+    <div class="flex gap-10 overflow-hidden">
+      <div class="flex-1">
+        <AuthViewForm :login="props.login"/>
+      </div>
+      <div class="flex-1">
+        <AuthViewDecoration/>
+      </div>
     </div>
   </div>
 </template>

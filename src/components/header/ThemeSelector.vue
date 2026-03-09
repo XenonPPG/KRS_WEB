@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import CircleButton from "@/components/customUI/buttons/CircleButton.vue";
+import CircleButton from "@/components/customUI/CircleButton.vue";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
 import {ColorTheme, ColorThemeNames} from "@/scripts/colorTheme.ts";
-import {onMounted, ref, watch} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import {useUserData} from "@/stores/userData.ts";
 import {useColorMode} from "@vueuse/core";
 
@@ -25,6 +25,12 @@ onMounted(() => {
 watch(() => userData.colorTheme, () => {
   mode.value = ColorThemeNames[userData.colorTheme] as "light" | "dark" | "auto"
 })
+
+const computedClasses = computed(() => {
+  return [ColorTheme.Auto, ColorTheme.Light, ColorTheme.Dark].map(val => {
+    return (val == userData.colorTheme ? '' : 'bg-background!') as string
+  })
+})
 </script>
 
 <template>
@@ -35,9 +41,10 @@ watch(() => userData.colorTheme, () => {
 
     <div class="flex flex-col absolute gap-1 mt-3" v-motion-slide-top v-if="open">
       <CircleButton
-          v-for="(val, key) in colorThemeIcons"
+          v-for="(val, key, i) in colorThemeIcons"
           @click="userData.colorTheme = key"
-          :variant="userData.colorTheme == key ? 'default' : 'outline'">
+          :variant="userData.colorTheme == key ? 'default' : 'outline'"
+          :class="computedClasses[i]">
 
         <SafeIcon :icon="val"/>
       </CircleButton>
