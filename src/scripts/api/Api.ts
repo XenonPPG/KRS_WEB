@@ -401,6 +401,8 @@ export class Api<
         limit?: number;
         /** Offset for pagination */
         offset?: number;
+        /** Sort in ascending order */
+        ascending_order?: boolean;
       },
       params: RequestParams = {},
     ) =>
@@ -504,6 +506,8 @@ export class Api<
         limit?: number;
         /** Offset for pagination */
         offset?: number;
+        /** Sort in ascending order */
+        ascending_order?: boolean;
       },
       params: RequestParams = {},
     ) =>

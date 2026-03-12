@@ -39,7 +39,18 @@ const router = createRouter({
         {
             path: '/note',
             name: 'Создать',
-            component: () => import('@/views/CreateNoteView.vue'),
+            component: () => import('@/views/CreateEditNoteView.vue'),
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/note/:id',
+            name: 'Редактировать',
+            component: () => import('@/views/CreateEditNoteView.vue'),
+            props: _ => ({
+                editMode: true,
+            }),
             meta: {
                 requiresAuth: true
             }

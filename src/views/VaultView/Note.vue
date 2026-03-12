@@ -4,22 +4,38 @@ import type {NoteModel} from "@/views/VaultView/note.model.ts";
 import {computed, ref} from "vue";
 import {Button} from "@/components/ui/button";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
+import {useRouter} from "vue-router";
 
 const props = defineProps<{
   note: NoteModel
 }>()
 
 const MAX_TITLE_LENGTH = 50
-const MAX_CONTENT_LENGTH = 300
+const MAX_CONTENT_LENGTH = 255
+const MAX_CONTENT_LINES = 8
+
+const emit = defineEmits<{
+  (event: 'delete', id: number): void
+}>()
+
+const router = useRouter()
+
+function EditNote(){
+  router.push('/note/' + props.note.id)
+}
 
 function LimitText(text: string, maxLength: number): string {
-  if(!text) return '<span class="text-muted-foreground/70">Пусто</span>'
+  if (!text) return '<span class="text-muted-foreground/70 italic">Пусто</span>'
 
-  if (text.length <= maxLength) {
-    return text
-  }
+  const lines = text.split('\n')
+  const needsTrunc = lines.length >= MAX_CONTENT_LINES || text.length > maxLength
 
-  return text.substring(0, maxLength) + ' <span class="text-muted-foreground/70">...</span>'
+  let shortened = lines.slice(0, MAX_CONTENT_LINES).join('<br>')
+  shortened = shortened.substring(0, maxLength)
+
+  return needsTrunc
+      ? shortened + ' <span class="text-muted-foreground/70">...</span>'
+      : shortened
 }
 
 const displayDate = computed(() =>
@@ -31,7 +47,7 @@ const menuOpen = ref(false)
 </script>
 
 <template>
-  <Card class="h-100 flex-1">
+  <Card class="h-100 flex-1 overflow-hidden">
     <CardHeader>
       <div class="flex flex-col">
         <!-- title and menu -->
@@ -44,12 +60,14 @@ const menuOpen = ref(false)
               <SafeIcon icon="lucide:ellipsis-vertical"/>
             </Button>
 
-            <div v-if="menuOpen" v-motion-pop class="flex flex-col items-start absolute right-0 mt-1 border-2 bg-background rounded-md">
-              <Button variant="ghost" class="w-full">
+            <div v-if="menuOpen" v-motion-pop
+                 class="flex flex-col items-start absolute right-0 mt-1 border-2 bg-background rounded-md">
+              <Button @click="EditNote" variant="ghost" class="w-full">
                 <SafeIcon icon="lucide:pencil"/>
                 Редактировать
               </Button>
-              <Button variant="ghost" class="text-destructive w-full justify-start hover:text-destructive">
+              <Button @click="emit('delete', note.id)" variant="ghost"
+                      class="text-destructive w-full justify-start hover:text-destructive">
                 <SafeIcon icon="lucide:trash"/>
                 Удалить
               </Button>

@@ -6,17 +6,21 @@ import Note from "@/views/VaultView/Note.vue";
 import type {NoteModel} from "@/views/VaultView/note.model.ts";
 import {toast} from "vue-sonner";
 import Pagination from "@/components/customUI/Pagination/Pagination.vue";
+import {Button} from "@/components/ui/button";
+import SafeIcon from "@/components/customUI/SafeIcon.vue";
 
 const LIMIT = 8
 
 const offset = ref(1)
 const notes = ref<NoteModel[]>([])
 const totalCount = ref(0)
+const ascendingOrder = ref(true)
 
 async function GetAllNotes() {
   const result = await serviceAPI.noteList({
     limit: LIMIT,
     offset: (offset.value - 1) * LIMIT,
+    ascending_order: ascendingOrder.value,
   })
 
   if (!IsSuccessful(result.status) || !result.data.notes) {
@@ -27,6 +31,7 @@ async function GetAllNotes() {
   notes.value = []
   result.data.notes.notes.forEach((n: any) => {
     notes.value.push({
+      id: n.id,
       title: n.title,
       content: n.content,
       createdAt: n.createdAt,
@@ -38,18 +43,38 @@ async function GetAllNotes() {
   console.log(result.data.notes.total_count)
 }
 
+async function DeleteNote(id: number) {
+  const result = await serviceAPI.noteDelete(id)
+
+  if (!IsSuccessful(result.status)) {
+    toast.error("Ошибка")
+    return
+  }
+
+  await GetAllNotes()
+}
+
 const paginationRequired = computed(() => totalCount.value > LIMIT)
 
 onMounted(GetAllNotes)
-watch(offset, GetAllNotes)
+watch([offset, ascendingOrder], GetAllNotes)
 </script>
 
 <template>
   <div class="flex flex-col items-start min-h-full w-full">
-    <Pagination v-if="paginationRequired" v-model="offset" :itemsPerPage="LIMIT" :totalCount="totalCount"/>
+    <div class="flex-center w-full">
+      <div class="relative">
+        <Pagination class="w-min" v-if="paginationRequired" v-model="offset" :itemsPerPage="LIMIT"
+                    :totalCount="totalCount"/>
+
+        <Button @click="ascendingOrder = !ascendingOrder" size="icon" variant="outline" class="absolute top-1/2 -translate-y-1/2 left-[calc(100%+8px)]">
+          <SafeIcon icon="lucide:chevron-up" class="transition-transform" :class="{'rotate-180':!ascendingOrder}"/>
+        </Button>
+      </div>
+    </div>
 
     <div class="grid grid-cols-4 w-full gap-2 p-3 flex-1">
-      <Note v-for="note in notes" :note="note"/>
+      <Note @delete="DeleteNote" v-for="note in notes" :note="note"/>
     </div>
 
     <Pagination v-if="paginationRequired" v-model="offset" :itemsPerPage="LIMIT" :totalCount="totalCount"/>

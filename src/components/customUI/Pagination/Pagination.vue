@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {Button} from "@/components/ui/button";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
-import {computed, onMounted} from "vue";
+import {computed} from "vue";
 import {Clamp} from "@/scripts/utils.ts";
 import PaginationButton from "@/components/customUI/Pagination/PaginationButton.vue";
 
