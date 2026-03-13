@@ -33,7 +33,6 @@ const userData = useUserData()
       <Separator orientation="vertical"/>
 
       <!-- other routes -->
-      <HeaderLink link="/note"/>
       <HeaderLink link="/vault"/>
       <HeaderLink v-if="userData.loggedIn" link="/jwt"/>
     </div>

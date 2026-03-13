@@ -15,7 +15,7 @@ const userData = useUserData()
       <div class="flex-center gap-3">
         <Button class="mt-10 font-secondary" as-child>
           <RouterLink :to="userData.loggedIn ? '/note' : '/login'">
-            {{ userData.loggedIn ? '> Новая записка' : 'Войти' }}
+            {{ userData.loggedIn ? '> Новая заметка' : 'Войти' }}
           </RouterLink>
         </Button>
 

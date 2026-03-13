@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<{
       </TooltipTrigger>
 
       <TooltipContent :side="props.side">
-        <p>{{ props.text }}</p>
+        <p class="select-none">{{ props.text }}</p>
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>
