@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import CircleButton from "@/components/customUI/CircleButton.vue";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
-import {ColorTheme, ColorThemeNames} from "@/scripts/colorTheme.ts";
+import {ColorTheme, ColorThemeMap, ColorThemeNames} from "@/scripts/colorTheme.ts";
 import {computed, onMounted, ref, watch} from "vue";
 import {useUserData} from "@/stores/userData.ts";
 import {useColorMode} from "@vueuse/core";
+import {serviceAPI} from "@/api/InitAPI.ts";
+import {IsSuccessful} from "@/scripts/utils.ts";
+import {UpdateUser} from "@/api/user/user.controller.ts";
 
-// FIXME: moon doesnt appear when logged in
 const colorThemeIcons = {
   [ColorTheme.Auto]: 'radix-icons:half-2',
   [ColorTheme.Light]: 'radix-icons:sun',
@@ -31,18 +33,27 @@ const computedClasses = computed(() => {
     return (val == userData.colorTheme ? '' : 'bg-background!') as string
   })
 })
+
+async function SetColorTheme(theme: ColorTheme) {
+  userData.colorTheme = theme
+
+  await UpdateUser(userData.id, undefined, undefined, theme)
+}
+
+console.log('color theme', userData.colorTheme)
 </script>
 
 <template>
   <div class="relative z-999" v-click-outside="() => open = false">
+    <!-- this one -->
     <CircleButton @click="open = !open">
-      <SafeIcon :icon="colorThemeIcons[userData.colorTheme]"/>
+      <SafeIcon :icon="colorThemeIcons[userData.colorTheme as ColorTheme]"/>
     </CircleButton>
 
     <div class="flex flex-col absolute gap-1 mt-3" v-motion-slide-top v-if="open">
       <CircleButton
           v-for="(val, key, i) in colorThemeIcons"
-          @click="userData.colorTheme = key"
+          @click="() => SetColorTheme(key)"
           :variant="userData.colorTheme == key ? 'default' : 'outline'"
           :class="computedClasses[i]">
 

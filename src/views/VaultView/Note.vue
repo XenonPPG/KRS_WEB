@@ -7,7 +7,7 @@ import SafeIcon from "@/components/customUI/SafeIcon.vue";
 import {useRouter} from "vue-router";
 
 const props = defineProps<{
-  note: NoteModel
+  note: NoteModel,
 }>()
 
 const MAX_TITLE_LENGTH = 50

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {computed, onMounted, reactive, ref, watch} from "vue";
-import {serviceAPI} from "@/scripts/api/InitAPI.ts";
+import {serviceAPI} from "@/api/InitAPI.ts";
 import {IsSuccessful} from "@/scripts/utils.ts";
 import Note from "@/views/VaultView/Note.vue";
 import type {NoteModel} from "@/views/VaultView/note.model.ts";
@@ -8,6 +8,7 @@ import {toast} from "vue-sonner";
 import Pagination from "@/components/customUI/Pagination/Pagination.vue";
 import {Button} from "@/components/ui/button";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
+import {DeleteNote, GetAllNotes} from "@/api/note/note.controller.ts";
 
 const LIMIT = 8
 
@@ -16,15 +17,10 @@ const notes = ref<NoteModel[]>([])
 const totalCount = ref(0)
 const ascendingOrder = ref(true)
 
-async function GetAllNotes() {
-  const result = await serviceAPI.noteList({
-    limit: LIMIT,
-    offset: (offset.value - 1) * LIMIT,
-    ascending_order: ascendingOrder.value,
-  })
+async function LoadNotes() {
+  const result = await GetAllNotes(LIMIT, (offset.value - 1) * LIMIT, ascendingOrder.value)
 
   if (!IsSuccessful(result.status) || !result.data.notes) {
-    toast.error("Не удалось загрузить заметки")
     return
   }
 
@@ -43,21 +39,20 @@ async function GetAllNotes() {
   console.log(result.data.notes.total_count)
 }
 
-async function DeleteNote(id: number) {
-  const result = await serviceAPI.noteDelete(id)
+async function HandleDeleteNote(id: number) {
+  const result = await DeleteNote(id)
 
   if (!IsSuccessful(result.status)) {
-    toast.error("Ошибка")
     return
   }
 
-  await GetAllNotes()
+  await LoadNotes()
 }
 
 const paginationRequired = computed(() => totalCount.value > LIMIT)
 
-onMounted(GetAllNotes)
-watch([offset, ascendingOrder], GetAllNotes)
+onMounted(LoadNotes)
+watch([offset, ascendingOrder], LoadNotes)
 </script>
 
 <template>
@@ -74,7 +69,7 @@ watch([offset, ascendingOrder], GetAllNotes)
     </div>
 
     <div class="grid grid-cols-4 w-full gap-2 p-3 flex-1">
-      <Note @delete="DeleteNote" v-for="note in notes" :note="note"/>
+      <Note @delete="HandleDeleteNote" v-for="note in notes" :note="note"/>
     </div>
 
     <Pagination v-if="paginationRequired" v-model="offset" :itemsPerPage="LIMIT" :totalCount="totalCount"/>

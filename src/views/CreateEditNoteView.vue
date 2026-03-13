@@ -4,11 +4,12 @@ import {Textarea} from "@/components/ui/textarea";
 import {Button} from "@/components/ui/button";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
 import {computed, onMounted, ref, watch} from "vue";
-import {serviceAPI} from "@/scripts/api/InitAPI.ts";
+import {serviceAPI} from "@/api/InitAPI.ts";
 import {IsSuccessful} from "@/scripts/utils.ts";
 import {toast} from "vue-sonner";
 import router from "@/router.ts";
 import {useRoute} from "vue-router";
+import {CreateNote, GetNote, UpdateNote} from "@/api/note/note.controller.ts";
 
 const route = useRoute()
 const id = computed(() => route.params.id)
@@ -18,23 +19,8 @@ const content = ref("")
 
 async function UpdateView() {
   if (!id.value) return;
-
-  let error: boolean
-  let result: any
-
-  try {
-    result = await serviceAPI.noteDetail(parseInt(typeof id.value === 'string' ? id.value : (id.value[0] as string)))
-
-    error = !IsSuccessful(result.status)
-  } catch {
-    error = true
-  }
-
-  if (error) {
-    toast.error("Ошибка")
-    await router.push('/vault')
-    return
-  }
+  const intId = parseInt(typeof id.value === 'string' ? id.value : (id.value[0] as string))
+  const result = await GetNote(intId)
 
   const note = result.data.note
   title.value = note.title
@@ -54,70 +40,26 @@ function AddTime() {
   }).replace(',', '')
 }
 
-async function CreateNote() {
-  let error: boolean
-
-  try {
-    const res: any = await serviceAPI.noteCreate({
-      title: title.value,
-      content: content.value,
-    })
-
-    error = !IsSuccessful(res.status)
-  } catch {
-    error = true
-  }
-
-  if (error) {
-    toast.error("Произошла ошибка")
-    return
-  }
-
-  toast.info("Создано!")
-}
-
-async function EditNote() {
-  if (!id.value) return
-
-  let error: boolean
-
-  try {
-    const res: any = await serviceAPI.noteUpdate({
-      title: title.value,
-      content: content.value,
-      id: parseInt(typeof id.value === 'string' ? id.value : (id.value[0] as string))
-    })
-
-    error = !IsSuccessful(res.status)
-  } catch {
-    error = true
-  }
-
-  if (error) {
-    toast.error("Произошла ошибка")
-    return
-  }
-
-  toast.info("Успешно!")
-}
-
-function ClearFields(){
+function ClearFields() {
   title.value = ''
   content.value = ''
 }
 
-function HandleClick() {
+async function HandleClick() {
   if (id.value) {
-    EditNote()
+    if (!id.value) return;
+    const intId = parseInt(typeof id.value === 'string' ? id.value : (id.value[0] as string))
+    await UpdateNote(intId, title.value, content.value)
+
     router.push('/note')
   } else {
-    CreateNote()
+    await CreateNote(title.value, content.value)
   }
   ClearFields()
 }
 
 watch(id, () => {
-  if(!id.value){
+  if (!id.value) {
     ClearFields()
   }
 })
@@ -132,7 +74,7 @@ watch(id, () => {
         </CardHeader>
 
         <CardContent>
-          <Textarea v-model="content" class="w-100 max-h-100 h-100 text-lg!" placeholder="Содержание"/>
+          <Textarea v-model="content" class="w-100 max-h-100 h-100 text-lg!" style="scrollbar-width: none" placeholder="Содержание"/>
         </CardContent>
       </Card>
 
@@ -142,7 +84,7 @@ watch(id, () => {
           Добавить время
         </Button>
 
-        <Button variant="outline" @click="HandleClick">
+        <Button :disabled="!title.length" variant="outline" @click="HandleClick">
           <SafeIcon :icon="id ? 'lucide:pencil' : 'lucide:send'"/>
           {{ id ? 'Редактировать' : 'Создать' }}
         </Button>

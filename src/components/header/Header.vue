@@ -4,7 +4,7 @@ import {Separator} from "@/components/ui/separator";
 import ThemeSelector from "@/components/header/ThemeSelector.vue";
 import HeaderAccountButton from "@/components/header/HeaderAccountButton.vue";
 import {onMounted, ref} from "vue";
-import {serviceAPI} from "@/scripts/api/InitAPI.ts";
+import {serviceAPI} from "@/api/InitAPI.ts";
 import {Skeleton} from "@/components/ui/skeleton";
 import {useUserData} from "@/stores/userData.ts";
 import {IsSuccessful} from "@/scripts/utils.ts";

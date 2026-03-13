@@ -522,29 +522,6 @@ export class Api<
       }),
 
     /**
-     * @description Updates an existing user's information
-     *
-     * @tags users
-     * @name UserUpdate
-     * @summary Update a user
-     * @request PUT:/api/user
-     * @secure
-     */
-    userUpdate: (
-      request: UserV1UpdateUserRequest,
-      params: RequestParams = {},
-    ) =>
-      this.request<Record<string, any>, Record<string, any>>({
-        path: `/api/user`,
-        method: "PUT",
-        body: request,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description Creates a new user account with hashed password
      *
      * @tags users
@@ -597,6 +574,30 @@ export class Api<
       this.request<Record<string, any>, Record<string, any>>({
         path: `/api/user/${id}`,
         method: "GET",
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates an existing user's information
+     *
+     * @tags users
+     * @name UserUpdate
+     * @summary Update a user
+     * @request PUT:/api/user/{id}
+     * @secure
+     */
+    userUpdate: (
+      id: string,
+      request: UserV1UpdateUserRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<Record<string, any>, Record<string, any>>({
+        path: `/api/user/${id}`,
+        method: "PUT",
+        body: request,
         secure: true,
         type: ContentType.Json,
         format: "json",

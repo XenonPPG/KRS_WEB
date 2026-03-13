@@ -6,6 +6,7 @@ import {Toaster} from "vue-sonner";
 import 'vue-sonner/style.css'
 import {useUserData} from "@/stores/userData.ts";
 import {useJWTData} from "@/stores/jwtData.ts";
+import LoadingOverlay from "@/components/LoadingOverlay.vue";
 
 // update title
 const router = useRouter();
@@ -29,8 +30,9 @@ router.afterEach(() => {
   <div class="min-h-screen flex flex-col justify-between">
     <Header/>
 
-    <div class="flex flex-col flex-1 w-full">
+    <div class="flex flex-col relative flex-1 w-full">
       <RouterView/>
+      <LoadingOverlay/>
     </div>
 
     <Toaster/>

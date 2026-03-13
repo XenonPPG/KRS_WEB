@@ -1,4 +1,4 @@
-import {Api} from '@/scripts/api/Api.ts'
+import {Api} from '@/api/gen/Api.ts'
 
 // fetch handler with timeout
 const withTimeout = (ms: number) => (input: RequestInfo | URL, init?: RequestInit) => {
@@ -14,5 +14,5 @@ export const serviceAPI = new Api({
     baseApiParams: {
         credentials: 'include',
     },
-    customFetch: withTimeout(900),
+    customFetch: withTimeout(10000),
 }).api

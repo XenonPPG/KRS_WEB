@@ -1,7 +1,9 @@
 <script setup lang="ts">
-
 import NoteMock from "@/views/HomeView/NoteMock.vue";
 import {Button} from "@/components/ui/button";
+import {useUserData} from "@/stores/userData.ts";
+
+const userData = useUserData()
 </script>
 
 <template>
@@ -12,12 +14,12 @@ import {Button} from "@/components/ui/button";
 
       <div class="flex-center gap-3">
         <Button class="mt-10 font-secondary" as-child>
-          <RouterLink to="/note">
-            &gt; Новая записка
+          <RouterLink :to="userData.loggedIn ? '/note' : '/login'">
+            {{ userData.loggedIn ? '> Новая записка' : 'Войти' }}
           </RouterLink>
         </Button>
 
-        <Button class="mt-10 font-secondary" as-child>
+        <Button v-if="userData.loggedIn" class="mt-10 font-secondary" as-child>
           <RouterLink to="/vault">
             &gt; Моё хранилище
           </RouterLink>

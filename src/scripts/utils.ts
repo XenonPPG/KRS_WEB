@@ -11,3 +11,9 @@ export function CopyText(text: string) {
 export function Clamp(value: number, min: number, max: number) {
     return Math.min(Math.max(value, min), max)
 }
+
+export function RemoveNulls<T extends object>(obj: T): Partial<T> {
+    return Object.fromEntries(
+        Object.entries(obj).filter(([_, v]) => v !== undefined || v !== null)
+    ) as Partial<T>;
+}

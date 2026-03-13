@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {Card, CardContent, CardHeader} from "@/components/ui/card";
-import {Button} from "@/components/ui/button"; // Добавили импорт
+import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
 import {
   FormControl,
@@ -13,11 +13,14 @@ import {z} from 'zod';
 import {useForm} from "vee-validate";
 import {toTypedSchema} from '@vee-validate/zod';
 import {Separator} from "@/components/ui/separator";
-import {serviceAPI} from "@/scripts/api/InitAPI.ts";
+import {serviceAPI} from "@/api/InitAPI.ts";
 import {useUserData} from "@/stores/userData.ts";
-import {type ColorTheme, colorThemeMap} from "@/scripts/colorTheme.ts";
+import {type ColorTheme, ColorThemeMap, ReverseColorThemeMap} from "@/scripts/colorTheme.ts";
 import {toast} from "vue-sonner";
 import {IsSuccessful} from "@/scripts/utils.ts";
+import {Login} from "@/api/auth.controller.ts";
+import {CreateUser} from "@/api/user/user.controller.ts";
+import {UserV1ColorTheme} from "@/api/gen/Api.ts";
 
 const formSchema = z.object({
   login: z.string().min(2, "Минимум 2 символа").max(50, "Слишком длинное имя"),
@@ -39,7 +42,7 @@ const form = useForm({
 
 const onSubmit = form.handleSubmit(async (values) => {
   if (props.login) {
-    await Login()
+    await HandleLogin()
   } else {
     await Register()
   }
@@ -55,14 +58,8 @@ function GetAuthLabel(login: boolean) {
 
 const userData = useUserData()
 
-async function Login() {
-  const result = await serviceAPI.authLoginCreate({
-    login: form.values.login,
-    password: form.values.password
-  })
-
-  console.log(result)
-
+async function HandleLogin() {
+  const result = await Login(form.values.login ?? '', form.values.password ?? '')
   //TODO: repeat request few times and display error
   if (!IsSuccessful(result.status)) return
 
@@ -71,25 +68,19 @@ async function Login() {
   const user = result.data.user
   userData.id = user.id
   userData.name = user.name
-  userData.colorTheme = user.colorTheme as ColorTheme
-
-  toast.success("Добро пожаловать!")
+  userData.colorTheme = ReverseColorThemeMap[user.colorTheme as UserV1ColorTheme]
 }
 
 async function Register() {
-  const result = await serviceAPI.userCreate({
-    login: form.values.login,
-    password: form.values.password,
-    role: 0,
-    colorTheme: colorThemeMap[userData.colorTheme] - 1
-  })
-
-  console.log(result)
+  const result = await CreateUser(
+      form.values.login ?? '',
+      form.values.password ?? '',
+      userData.colorTheme)
 
   //TODO: repeat request few times and display error
   if (!IsSuccessful(result.status)) return
 
-  await Login()
+  await HandleLogin()
 }
 </script>
 

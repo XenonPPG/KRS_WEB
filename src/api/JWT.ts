@@ -1,5 +1,5 @@
 import {jwtDecode, InvalidTokenError} from 'jwt-decode'
-import type {User} from "@/scripts/user.model.ts";
+import type {User} from "@/api/user/user.model.ts";
 import {toast} from "vue-sonner";
 
 export function getCookie(name: string): string | null {
@@ -31,7 +31,7 @@ export function GetJWTData(): [string, User] | undefined {
 
     if (!payload) return undefined
 
-    console.log(payload)
+    console.log('payload', payload)
 
     return [token, payload]
 }

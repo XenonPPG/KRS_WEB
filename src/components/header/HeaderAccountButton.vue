@@ -6,10 +6,11 @@ import {useRoute, useRouter} from "vue-router";
 import {Card} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {ref} from "vue";
-import {serviceAPI} from "@/scripts/api/InitAPI.ts";
+import {serviceAPI} from "@/api/InitAPI.ts";
 import {IsSuccessful} from "@/scripts/utils.ts";
 import {toast} from "vue-sonner";
-import {InitialLogin} from "@/scripts/api/initialLogin.ts";
+import {InitialLogin} from "@/api/initialLogin.ts";
+import {Logout} from "@/api/auth.controller.ts";
 
 const router = useRouter()
 const route = useRoute()
@@ -29,13 +30,8 @@ function SwitchAccount() {
   open.value = false
 }
 
-async function Logout() {
-  const res = await serviceAPI.authLogoutCreate()
-
-  if (!IsSuccessful(res.status)) {
-    toast.error("Произошла ошибка")
-    return
-  }
+async function HandleLogout() {
+  await Logout()
 
   userData.Logout()
   userData.loggedIn = false
@@ -65,7 +61,7 @@ async function Logout() {
         <p>Сменить аккаунт</p>
       </Button>
 
-      <Button @click="Logout" variant="ghost" class="text-destructive w-full justify-start hover:text-destructive">
+      <Button @click="HandleLogout" variant="ghost" class="text-destructive w-full justify-start hover:text-destructive">
         <SafeIcon icon="lucide:log-out"/>
         <p>Выйти</p>
       </Button>

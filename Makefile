@@ -5,7 +5,6 @@ DOC_PATH = tmp/$(DOC_FILE)
 generate-api:
 	if not exist tmp mkdir tmp
 	curl -fSL -o $(DOC_PATH) $(URL)
-	npx swagger-typescript-api generate -p $(DOC_PATH) -o ./src/scripts/api
-	del /f /q tmp\$(DOC_FILE)
+	npx swagger-typescript-api generate -p $(DOC_PATH) -o ./src/api/gen
 
 .PHONY: generate-api

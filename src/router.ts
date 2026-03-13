@@ -1,7 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import {useUserData} from "@/stores/userData.ts";
-import {InitialLogin} from "@/scripts/api/initialLogin.ts";
+import {InitialLogin} from "@/api/initialLogin.ts";
 import {pinia} from "@/main.ts";
+import {useGlobalLoading} from "@/stores/loading.ts";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -84,10 +85,10 @@ const router = createRouter({
     ],
 })
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from) => {
     const userData = useUserData(pinia)
+    const loading = useGlobalLoading()
 
-    // perform initial login if not initialized
     if (!userData.initialized) {
         try {
             await InitialLogin()
@@ -99,11 +100,9 @@ router.beforeEach(async (to, from, next) => {
     }
 
     if (to.meta.requiresAuth && !userData.loggedIn) {
-        next('/unauthorized')
+        return '/unauthorized'
     } else if (to.path === '/unauthorized' && userData.loggedIn) {
-        next('/')
-    } else {
-        next()
+        return '/'
     }
 })
 

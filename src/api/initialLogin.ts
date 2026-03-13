@@ -1,9 +1,12 @@
 import {useJWTData} from "@/stores/jwtData.ts";
-import {serviceAPI} from "@/scripts/api/InitAPI.ts";
+import {serviceAPI} from "@/api/InitAPI.ts";
 import {IsSuccessful} from "@/scripts/utils.ts";
 import {toast} from "vue-sonner";
 import {useUserData} from "@/stores/userData.ts";
 import {pinia} from "@/main.ts";
+import {ColorTheme, ReverseColorThemeMap} from "@/scripts/colorTheme.ts";
+import {GetUser} from "@/api/user/user.controller.ts";
+import {UserV1ColorTheme} from "@/api/gen/Api.ts";
 
 export async function InitialLogin() {
     const jwtData = useJWTData(pinia)
@@ -27,7 +30,7 @@ export async function InitialLogin() {
     }
 
     // get user
-    const res = await serviceAPI.userDetail((jwtData.payload as any).user_id)
+    const res = await GetUser((jwtData.payload as any).user_id)
     const user = res.data.user
     if (!user) {
         toast.error("Не удалось загрузить данные")
@@ -37,6 +40,6 @@ export async function InitialLogin() {
     userData.loggedIn = true
     userData.id = user.id
     userData.name = user.name
-    userData.colorTheme = user.colorTheme
+    userData.colorTheme = ReverseColorThemeMap[user.colorTheme as UserV1ColorTheme]
     userData.initialized = true
 }

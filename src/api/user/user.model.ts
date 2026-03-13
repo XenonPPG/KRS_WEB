@@ -1,4 +1,4 @@
-import {UserV1ColorTheme, type UserV1UserRole} from "@/scripts/api/Api.ts";
+import {UserV1ColorTheme, type UserV1UserRole} from "@/api/gen/Api.ts";
 
 export interface User {
     id: number,
