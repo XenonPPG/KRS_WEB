@@ -1,23 +1,44 @@
-import {ref} from 'vue'
+import {reactive, ref} from 'vue'
 import {defineStore} from 'pinia'
-import {ColorTheme} from "@/scripts/colorTheme.ts";
+import {UserV1ColorTheme, UserV1UserRole} from "@/api/gen/Api.ts";
+import type {User} from "@/api/controllers/user/user.model.ts";
+
+const EmptyUser = {
+    colorTheme: UserV1ColorTheme.ColorThemeAUTO,
+    id: 0,
+    login: "",
+    role: UserV1UserRole.UserRoleDEFAULT,
+}
 
 export const useUserData = defineStore('user data', () => {
     const loggedIn = ref(false)
     const initialized = ref(false)
-    const id = ref(0)
-    const name = ref('')
-    const colorTheme = ref<ColorTheme>(ColorTheme.Auto)
+    const user = ref<User>(EmptyUser)
 
-    function Logout(){
+    function Logout() {
         loggedIn.value = false
         initialized.value = false
-        id.value = 0
-        name.value = ''
-        colorTheme.value = ColorTheme.Auto
+        user.value = EmptyUser
 
         console.log('Logged out')
     }
 
-    return {id, loggedIn, initialized, name, colorTheme, Logout}
+    function ParseUserData(data: any): User | undefined {
+        let u: User
+        try{
+            u = {
+                id: parseInt(data.id),
+                login: data.login,
+                role: data.role,
+                colorTheme: parseInt(data.colorTheme) as UserV1ColorTheme,
+            }
+        } catch{
+            console.log('Failed to parse user data')
+            return undefined
+        }
+
+        return u
+    }
+
+    return {user, loggedIn, initialized, Logout, ParseUserData}
 })

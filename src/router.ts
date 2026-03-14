@@ -3,6 +3,7 @@ import {useUserData} from "@/stores/userData.ts";
 import {InitialLogin} from "@/api/initialLogin.ts";
 import {pinia} from "@/main.ts";
 import {useGlobalLoading} from "@/stores/loading.ts";
+import {UserV1UserRole} from "@/api/gen/Api.ts";
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -65,6 +66,15 @@ const router = createRouter({
             }
         },
         {
+            path: '/users',
+            name: 'Пользователи',
+            component: () => import('@/views/UserListView/UserListView.vue'),
+            meta: {
+                requiresAuth: true,
+                admin: true
+            }
+        },
+        {
             path: '/unauthorized',
             name: '403',
             component: () => import('@/views/ErrorPage.vue'),
@@ -99,7 +109,7 @@ router.beforeEach(async (to, from) => {
         }
     }
 
-    if (to.meta.requiresAuth && !userData.loggedIn) {
+    if ((to.meta.requiresAuth && !userData.loggedIn) || (to.meta.admin && userData.user.role != UserV1UserRole.UserRoleADMIN)) {
         return '/unauthorized'
     } else if (to.path === '/unauthorized' && userData.loggedIn) {
         return '/'

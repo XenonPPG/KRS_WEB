@@ -1,7 +1,6 @@
 import {GenericRequest} from "@/api/apiUtils.ts";
 import {serviceAPI} from "@/api/InitAPI.ts";
-import {type ColorTheme, ColorThemeMap} from "@/scripts/colorTheme.ts";
-import type {UserV1UserRole} from "@/api/gen/Api.ts";
+import {UserV1ColorTheme, type UserV1UserRole} from "@/api/gen/Api.ts";
 import {RemoveNulls} from "@/scripts/utils.ts";
 
 export async function GetAllUsers(limit: number, offset: number, ascendingOrder: boolean) {
@@ -12,11 +11,11 @@ export async function GetAllUsers(limit: number, offset: number, ascendingOrder:
     }), undefined, "Не удалось загрузить")
 }
 
-export async function CreateUser(login: string, password: string, colorTheme: ColorTheme) {
+export async function CreateUser(login: string, password: string, colorTheme: UserV1ColorTheme) {
     return await GenericRequest(async () => await serviceAPI.userCreate({
         login: login,
         password: password,
-        colorTheme: ColorThemeMap[colorTheme],
+        colorTheme: colorTheme,
         role: 0 //TODO: remove role from request
     }), undefined, "Ошибка, попробуйте позже")
 }
@@ -31,13 +30,13 @@ export async function UpdateUser(
     id: number,
     login: string | undefined,
     role: UserV1UserRole | undefined,
-    colorTheme: ColorTheme | undefined,
+    colorTheme: UserV1ColorTheme | undefined,
     needNotify: boolean = false) {
 
     return await GenericRequest(async () => await serviceAPI.userUpdate(id.toString(), RemoveNulls({
             login: login,
             role: role,
-            colorTheme: colorTheme ? ColorThemeMap[colorTheme] : undefined
+            colorTheme: colorTheme !== undefined ? colorTheme : undefined
         })),
         needNotify ? "Данные обновлены" : undefined,
         needNotify ? "Не удалось обновить" : undefined)

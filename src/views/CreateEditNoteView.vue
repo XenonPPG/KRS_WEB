@@ -9,7 +9,7 @@ import {IsSuccessful} from "@/scripts/utils.ts";
 import {toast} from "vue-sonner";
 import router from "@/router.ts";
 import {useRoute} from "vue-router";
-import {CreateNote, GetNote, UpdateNote} from "@/api/note/note.controller.ts";
+import {CreateNote, GetNote, UpdateNote} from "@/api/controllers/note/note.controller.ts";
 
 const route = useRoute()
 const id = computed(() => route.params.id)

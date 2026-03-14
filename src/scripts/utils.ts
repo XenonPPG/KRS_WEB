@@ -14,6 +14,6 @@ export function Clamp(value: number, min: number, max: number) {
 
 export function RemoveNulls<T extends object>(obj: T): Partial<T> {
     return Object.fromEntries(
-        Object.entries(obj).filter(([_, v]) => v !== undefined || v !== null)
+        Object.entries(obj).filter(([_, v]) => v !== undefined && v !== null)
     ) as Partial<T>;
 }

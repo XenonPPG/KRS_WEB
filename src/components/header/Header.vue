@@ -8,6 +8,7 @@ import {serviceAPI} from "@/api/InitAPI.ts";
 import {Skeleton} from "@/components/ui/skeleton";
 import {useUserData} from "@/stores/userData.ts";
 import {IsSuccessful} from "@/scripts/utils.ts";
+import {UserV1UserRole} from "@/api/gen/Api.ts";
 
 const received = ref(false)
 const status = ref(false)
@@ -35,6 +36,7 @@ const userData = useUserData()
       <!-- other routes -->
       <HeaderLink link="/vault"/>
       <HeaderLink v-if="userData.loggedIn" link="/jwt"/>
+      <HeaderLink v-if="userData.user.role === UserV1UserRole.UserRoleADMIN" link="/users"/>
     </div>
 
     <div class="flex-center gap-2 h-5">

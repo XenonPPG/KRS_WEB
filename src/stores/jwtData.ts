@@ -1,7 +1,7 @@
 import {ref} from 'vue'
 import {defineStore} from 'pinia'
 import {GetJWTData} from "@/api/JWT.ts";
-import type {User} from "@/api/user/user.model.ts";
+import type {User} from "@/api/controllers/user/user.model.ts";
 
 export const useJWTData = defineStore('JWT data', () => {
     const accessToken = ref('')

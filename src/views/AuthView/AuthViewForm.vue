@@ -15,12 +15,11 @@ import {toTypedSchema} from '@vee-validate/zod';
 import {Separator} from "@/components/ui/separator";
 import {serviceAPI} from "@/api/InitAPI.ts";
 import {useUserData} from "@/stores/userData.ts";
-import {type ColorTheme, ColorThemeMap, ReverseColorThemeMap} from "@/scripts/colorTheme.ts";
 import {toast} from "vue-sonner";
 import {IsSuccessful} from "@/scripts/utils.ts";
-import {Login} from "@/api/auth.controller.ts";
-import {CreateUser} from "@/api/user/user.controller.ts";
-import {UserV1ColorTheme} from "@/api/gen/Api.ts";
+import {Login} from "@/api/controllers/auth.controller.ts";
+import {CreateUser} from "@/api/controllers/user/user.controller.ts";
+import {UserV1ColorTheme, UserV1UserRole} from "@/api/gen/Api.ts";
 
 const formSchema = z.object({
   login: z.string().min(2, "Минимум 2 символа").max(50, "Слишком длинное имя"),
@@ -64,18 +63,17 @@ async function HandleLogin() {
   if (!IsSuccessful(result.status)) return
 
   userData.loggedIn = true
+  const user = userData.ParseUserData(result.data.user)
+  if(!user) return
 
-  const user = result.data.user
-  userData.id = user.id
-  userData.name = user.name
-  userData.colorTheme = ReverseColorThemeMap[user.colorTheme as UserV1ColorTheme]
+  userData.user = user
 }
 
 async function Register() {
   const result = await CreateUser(
       form.values.login ?? '',
       form.values.password ?? '',
-      userData.colorTheme)
+      userData.user.colorTheme)
 
   //TODO: repeat request few times and display error
   if (!IsSuccessful(result.status)) return

@@ -8,7 +8,7 @@ import {toast} from "vue-sonner";
 import Pagination from "@/components/customUI/Pagination/Pagination.vue";
 import {Button} from "@/components/ui/button";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
-import {DeleteNote, GetAllNotes} from "@/api/note/note.controller.ts";
+import {DeleteNote, GetAllNotes} from "@/api/controllers/note/note.controller.ts";
 
 const LIMIT = 8
 
