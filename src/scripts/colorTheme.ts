@@ -1,4 +1,4 @@
-import  {UserV1ColorTheme} from "@/api/gen/Api.ts";
+import {UserV1ColorTheme} from "@/api/gen/Api.ts";
 
 
 export const ColorThemeNames = {

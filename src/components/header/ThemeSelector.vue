@@ -2,11 +2,9 @@
 import CircleButton from "@/components/customUI/CircleButton.vue";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
 import {ColorThemeNames} from "@/scripts/colorTheme.ts";
-import {computed, onMounted, ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useUserData} from "@/stores/userData.ts";
 import {useColorMode} from "@vueuse/core";
-import {serviceAPI} from "@/api/InitAPI.ts";
-import {IsSuccessful} from "@/scripts/utils.ts";
 import {UpdateUser} from "@/api/controllers/user/user.controller.ts";
 import {UserV1ColorTheme} from "@/api/gen/Api.ts";
 

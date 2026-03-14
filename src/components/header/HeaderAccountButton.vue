@@ -6,8 +6,6 @@ import {useRoute, useRouter} from "vue-router";
 import {Card} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {ref} from "vue";
-import {serviceAPI} from "@/api/InitAPI.ts";
-import {IsSuccessful} from "@/scripts/utils.ts";
 import {toast} from "vue-sonner";
 import {InitialLogin} from "@/api/initialLogin.ts";
 import {Logout} from "@/api/controllers/auth.controller.ts";

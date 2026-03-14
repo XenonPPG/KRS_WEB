@@ -1,4 +1,4 @@
-import {jwtDecode, InvalidTokenError} from 'jwt-decode'
+import {InvalidTokenError, jwtDecode} from 'jwt-decode'
 import type {User} from "@/api/controllers/user/user.model.ts";
 import {toast} from "vue-sonner";
 

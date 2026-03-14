@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import {useJWTData} from "@/stores/jwtData.ts";
-import {computed} from "vue";
 import JWTViewCard from "@/views/JWTView/JWTViewCard.vue";
-import ColoredJSON from "@/views/JWTView/ColoredJSON.vue";
 import JWTJSONViewCard from "@/views/JWTView/JWTJSONViewCard.vue";
 
 const jwtData = useJWTData()

@@ -5,7 +5,6 @@ import {toast} from "vue-sonner";
 import {useUserData} from "@/stores/userData.ts";
 import {pinia} from "@/main.ts";
 import {GetUser} from "@/api/controllers/user/user.controller.ts";
-import {UserV1ColorTheme, UserV1UserRole} from "@/api/gen/Api.ts";
 
 export async function InitialLogin() {
     const jwtData = useJWTData(pinia)

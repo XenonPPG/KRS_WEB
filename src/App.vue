@@ -7,7 +7,6 @@ import 'vue-sonner/style.css'
 import {useUserData} from "@/stores/userData.ts";
 import {useJWTData} from "@/stores/jwtData.ts";
 import LoadingOverlay from "@/components/LoadingOverlay.vue";
-import {Button} from "@/components/ui/button";
 import CircleButton from "@/components/customUI/CircleButton.vue";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
 import WithTooltip from "@/components/customUI/WithTooltip.vue";

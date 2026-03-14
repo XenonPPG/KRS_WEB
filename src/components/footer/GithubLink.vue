@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import SafeIcon from "@/components/customUI/SafeIcon.vue";
-import {computed, ref} from "vue";
 import WithTooltip from "@/components/customUI/WithTooltip.vue";
 
 const props = defineProps<{

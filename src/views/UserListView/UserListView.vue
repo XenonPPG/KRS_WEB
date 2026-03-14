@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {GetAllUsers} from "@/api/controllers/user/user.controller.ts";
-import {IsSuccessful} from "@/scripts/utils.ts";
 import {onMounted} from "vue";
 
 const USERS_PER_PAGE = 15

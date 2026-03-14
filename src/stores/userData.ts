@@ -1,4 +1,4 @@
-import {reactive, ref} from 'vue'
+import {ref} from 'vue'
 import {defineStore} from 'pinia'
 import {UserV1ColorTheme, UserV1UserRole} from "@/api/gen/Api.ts";
 import type {User} from "@/api/controllers/user/user.model.ts";

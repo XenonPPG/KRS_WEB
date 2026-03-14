@@ -2,24 +2,15 @@
 import {Card, CardContent, CardHeader} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import {FormControl, FormField, FormItem, FormLabel, FormMessage,} from '@/components/ui/form';
 import {z} from 'zod';
 import {useForm} from "vee-validate";
 import {toTypedSchema} from '@vee-validate/zod';
 import {Separator} from "@/components/ui/separator";
-import {serviceAPI} from "@/api/InitAPI.ts";
 import {useUserData} from "@/stores/userData.ts";
-import {toast} from "vue-sonner";
 import {IsSuccessful} from "@/scripts/utils.ts";
 import {Login} from "@/api/controllers/auth.controller.ts";
 import {CreateUser} from "@/api/controllers/user/user.controller.ts";
-import {UserV1ColorTheme, UserV1UserRole} from "@/api/gen/Api.ts";
 
 const formSchema = z.object({
   login: z.string().min(2, "Минимум 2 символа").max(50, "Слишком длинное имя"),

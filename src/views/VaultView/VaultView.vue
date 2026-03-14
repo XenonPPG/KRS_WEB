@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import {computed, onMounted, reactive, ref, watch} from "vue";
-import {serviceAPI} from "@/api/InitAPI.ts";
+import {computed, onMounted, ref, watch} from "vue";
 import {IsSuccessful} from "@/scripts/utils.ts";
 import Note from "@/views/VaultView/Note.vue";
 import type {NoteModel} from "@/views/VaultView/note.model.ts";
-import {toast} from "vue-sonner";
 import Pagination from "@/components/customUI/Pagination/Pagination.vue";
 import {Button} from "@/components/ui/button";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
