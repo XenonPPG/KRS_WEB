@@ -1,6 +1,6 @@
 import {GenericRequest} from "@/api/apiUtils.ts";
 import {serviceAPI} from "@/api/InitAPI.ts";
-import {RemoveNulls} from "@/scripts/utils.ts";
+import {OmitNulls} from "@/scripts/utils.ts";
 
 export async function CreateNote(title: string, content: string) {
     return await GenericRequest(async () => await serviceAPI.noteCreate({
@@ -24,7 +24,7 @@ export async function GetNote(id: number) {
 }
 
 export async function UpdateNote(id: number, content: string | undefined, title: string | undefined) {
-    return await GenericRequest(async () => await serviceAPI.noteUpdate(RemoveNulls({
+    return await GenericRequest(async () => await serviceAPI.noteUpdate(OmitNulls({
         id: id,
         content: content,
         title: title

@@ -9,6 +9,8 @@ import {ref} from "vue";
 import {toast} from "vue-sonner";
 import {InitialLogin} from "@/api/initialLogin.ts";
 import {Logout} from "@/api/controllers/auth.controller.ts";
+import MenuWithFunctions from "@/components/customUI/MenuWithFunctions/MenuWithFunctions.vue";
+import {MenuFunction} from "@/components/customUI/MenuWithFunctions/MenuFunction.ts";
 
 const router = useRouter()
 const route = useRoute()
@@ -21,11 +23,6 @@ function HandleClick() {
   } else if (route.path != "/login" && route.path != "/register") {
     router.push('/login')
   }
-}
-
-function SwitchAccount() {
-  router.push('/login')
-  open.value = false
 }
 
 async function HandleLogout() {
@@ -42,27 +39,16 @@ async function HandleLogout() {
 </script>
 
 <template>
-  <div class="relative">
+  <MenuWithFunctions v-model="open" :functions="[
+      new MenuFunction('lucide:arrow-left-right', 'Сменить аккаунт', () => router.push('/login')),
+      new MenuFunction('lucide:settings', 'Настройки', () => router.push(`/user/${userData.user.id}/edit`)),
+      new MenuFunction('lucide:log-out', 'Выйти', HandleLogout, true),
+  ]">
     <CircleButton
         v-click-outside="() => open = false"
         @click="HandleClick"
         :class="{'border-dashed':!userData.loggedIn}">
       <SafeIcon icon="lucide:user"/>
     </CircleButton>
-
-    <Card
-        v-if="open"
-        v-motion-slide-top
-        class="absolute right-0 mt-1 p-0 gap-0 items-start z-999">
-      <Button @click="SwitchAccount" variant="ghost" class="w-full">
-        <SafeIcon icon="lucide:arrow-right-left"/>
-        <p>Сменить аккаунт</p>
-      </Button>
-
-      <Button @click="HandleLogout" variant="ghost" class="text-destructive w-full justify-start hover:text-destructive">
-        <SafeIcon icon="lucide:log-out"/>
-        <p>Выйти</p>
-      </Button>
-    </Card>
-  </div>
+  </MenuWithFunctions>
 </template>

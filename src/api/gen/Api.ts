@@ -12,13 +12,14 @@
 
 /** @format int32 */
 export enum UserV1UserRole {
-  UserRoleDEFAULT = 0,
-  UserRoleADMIN = 1,
+  UserRoleROLEUNSPECIFIED = 0,
+  UserRoleDEFAULT = 1,
+  UserRoleADMIN = 2,
 }
 
 /** @format int32 */
 export enum UserV1ColorTheme {
-  ColorThemeUNSPECIFIED = 0,
+  ColorThemeTHEMEUNSPECIFIED = 0,
   ColorThemeAUTO = 1,
   ColorThemeLIGHT = 2,
   ColorThemeDARK = 3,
@@ -45,6 +46,12 @@ export interface UserV1CreateUserRequest {
 export interface UserV1LoginRequest {
   login?: string;
   password?: string;
+}
+
+export interface UserV1UpdatePasswordRequest {
+  id?: number;
+  newPassword?: string;
+  oldPassword?: string;
 }
 
 export interface UserV1UpdateUserRequest {
@@ -551,10 +558,14 @@ export class Api<
      * @request PUT:/api/user/password
      * @secure
      */
-    userPasswordUpdate: (params: RequestParams = {}) =>
+    userPasswordUpdate: (
+      request: UserV1UpdatePasswordRequest,
+      params: RequestParams = {},
+    ) =>
       this.request<Record<string, any>, Record<string, any>>({
         path: `/api/user/password`,
         method: "PUT",
+        body: request,
         secure: true,
         type: ContentType.Json,
         format: "json",

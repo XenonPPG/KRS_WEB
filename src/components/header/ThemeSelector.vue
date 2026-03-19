@@ -26,12 +26,6 @@ onMounted(() => {
 watch(() => userData.user.colorTheme, () => {
   mode.value = ColorThemeNames[userData.user.colorTheme] as "light" | "dark" | "auto"
 })
-
-async function SetColorTheme(theme: UserV1ColorTheme) {
-  userData.user.colorTheme = theme
-
-  await UpdateUser(userData.user.id, undefined, undefined, theme)
-}
 </script>
 
 <template>
@@ -39,13 +33,13 @@ async function SetColorTheme(theme: UserV1ColorTheme) {
     <!-- this one -->
     <CircleButton @click="open = !open">
       <SafeIcon
-          :icon="colorThemeIcons[userData.user.colorTheme === UserV1ColorTheme.ColorThemeUNSPECIFIED ? UserV1ColorTheme.ColorThemeAUTO : userData.user.colorTheme]"/>
+          :icon="colorThemeIcons[userData.user.colorTheme === UserV1ColorTheme.ColorThemeTHEMEUNSPECIFIED ? UserV1ColorTheme.ColorThemeAUTO : userData.user.colorTheme]"/>
     </CircleButton>
 
     <div class="flex flex-col absolute gap-1 mt-3" v-motion-slide-top v-if="open">
       <CircleButton
           v-for="(val, key, i) in colorThemeIcons"
-          @click="() => SetColorTheme(Number(key))"
+          @click="() => userData.SetColorTheme(Number(key))"
           :variant="userData.user.colorTheme == key ? 'default' : 'outline'"
           :class="{'bg-background!':userData.user.colorTheme != key}">
 

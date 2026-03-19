@@ -66,6 +66,14 @@ const router = createRouter({
             }
         },
         {
+            path: '/user/:id/edit',
+            name: 'Изменить',
+            component: () => import('@/views/UpdateUserView/UpdateUserView.vue'),
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
             path: '/users',
             name: 'Пользователи',
             component: () => import('@/views/UserListView/UserListView.vue'),

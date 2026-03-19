@@ -1,7 +1,7 @@
 import {GenericRequest} from "@/api/apiUtils.ts";
 import {serviceAPI} from "@/api/InitAPI.ts";
-import {UserV1ColorTheme, type UserV1UserRole} from "@/api/gen/Api.ts";
-import {RemoveNulls} from "@/scripts/utils.ts";
+import {UserV1ColorTheme, UserV1UserRole} from "@/api/gen/Api.ts";
+import {OmitNulls} from "@/scripts/utils.ts";
 
 export async function GetAllUsers(limit: number, offset: number, ascendingOrder: boolean) {
     return await GenericRequest(async () => await serviceAPI.userList({
@@ -16,7 +16,7 @@ export async function CreateUser(login: string, password: string, colorTheme: Us
         login: login,
         password: password,
         colorTheme: colorTheme,
-        role: 0 //TODO: remove role from request
+        role: UserV1UserRole.UserRoleDEFAULT
     }), undefined, "Ошибка, попробуйте позже")
 }
 
@@ -33,7 +33,7 @@ export async function UpdateUser(
     colorTheme: UserV1ColorTheme | undefined,
     needNotify: boolean = false) {
 
-    return await GenericRequest(async () => await serviceAPI.userUpdate(id.toString(), RemoveNulls({
+    return await GenericRequest(async () => await serviceAPI.userUpdate(id.toString(), OmitNulls({
             login: login,
             role: role,
             colorTheme: colorTheme !== undefined ? colorTheme : undefined
@@ -46,4 +46,12 @@ export async function DeleteUser(id: number) {
     return await GenericRequest(async () => await serviceAPI.userDelete(id),
         "Пользователь удален",
         "Ошибка")
+}
+
+export async function UpdatePassword(id: number, oldPassword: string, newPassword: string){
+    return await GenericRequest(async () => await serviceAPI.userPasswordUpdate({
+        id: id,
+        oldPassword: oldPassword,
+        newPassword: newPassword
+    }), "Пароль обновлен!", "Произошла ошибка")
 }

@@ -1,9 +1,10 @@
-import {ref} from 'vue'
+import {computed, ref} from 'vue'
 import {defineStore} from 'pinia'
 import {UserV1ColorTheme, UserV1UserRole} from "@/api/gen/Api.ts";
 import type {User} from "@/api/controllers/user/user.model.ts";
+import {UpdateUser} from "@/api/controllers/user/user.controller.ts";
 
-const EmptyUser = {
+export const EmptyUser = {
     colorTheme: UserV1ColorTheme.ColorThemeAUTO,
     id: 0,
     login: "",
@@ -14,6 +15,8 @@ export const useUserData = defineStore('user data', () => {
     const loggedIn = ref(false)
     const initialized = ref(false)
     const user = ref<User>(EmptyUser)
+
+    const isAdmin = computed(() => user.value.role == UserV1UserRole.UserRoleADMIN)
 
     function Logout() {
         loggedIn.value = false
@@ -40,5 +43,11 @@ export const useUserData = defineStore('user data', () => {
         return u
     }
 
-    return {user, loggedIn, initialized, Logout, ParseUserData}
+    async function SetColorTheme(theme: UserV1ColorTheme) {
+        user.value.colorTheme = theme
+
+        await UpdateUser(user.value.id, undefined, undefined, theme)
+    }
+
+    return {user, loggedIn, initialized, isAdmin, Logout, ParseUserData, SetColorTheme}
 })
