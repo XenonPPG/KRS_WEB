@@ -49,9 +49,10 @@ export interface UserV1LoginRequest {
 }
 
 export interface UserV1UpdatePasswordRequest {
-  id?: number;
   newPassword?: string;
   oldPassword?: string;
+  receiverId?: number;
+  senderId?: number;
 }
 
 export interface UserV1UpdateUserRequest {

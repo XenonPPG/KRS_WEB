@@ -12,3 +12,10 @@ export const RoleNames = {
     [UserV1UserRole.UserRoleDEFAULT]: "Без роли",
     [UserV1UserRole.UserRoleADMIN]: "Администратор",
 }
+
+export const ColorThemeNames = {
+    [UserV1ColorTheme.ColorThemeTHEMEUNSPECIFIED]: "Не определена",
+    [UserV1ColorTheme.ColorThemeAUTO]: "Система",
+    [UserV1ColorTheme.ColorThemeLIGHT]: "Светлая",
+    [UserV1ColorTheme.ColorThemeDARK]: "Темная"
+}

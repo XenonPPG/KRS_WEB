@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type {User} from "@/api/controllers/user/user.model.ts";
+import {ColorThemeNames, RoleNames, type User} from "@/api/controllers/user/user.model.ts";
 import {Card, CardContent, CardHeader} from "@/components/ui/card";
 import {computed} from "vue";
 import CopyText from "@/components/customUI/CopyText.vue";
@@ -21,13 +21,19 @@ const emit = defineEmits<{
   (event: 'delete'): void
 }>()
 
-const fields = computed(() => {
-  return {
-    "ID": props.user.id,
-    "Роль": props.user.role,
-    "Цветовая тема": props.user.colorTheme
+const fields = computed(() => ({
+  "ID": {
+    val: props.user.id
+  },
+  "Роль": {
+    val: props.user.role,
+    names: RoleNames
+  },
+  "Цветовая тема": {
+    val: props.user.colorTheme,
+    names: ColorThemeNames
   }
-})
+}))
 
 const dialog = useCommonDialog()
 
@@ -60,7 +66,7 @@ async function HandleDeleteUser() {
             new MenuFunction('lucide:pencil', 'Изменить', () => router.push(`/user/${user.id}/edit`)),
             new MenuFunction('lucide:trash', 'Удалить', HandleDeleteUser, true),
         ]"
-        :disable="user.role == UserV1UserRole.UserRoleADMIN ? [1, 2] : []"/>
+                                  :disable="user.role == UserV1UserRole.UserRoleADMIN ? [1, 2] : []"/>
       </div>
     </CardHeader>
 
@@ -68,7 +74,8 @@ async function HandleDeleteUser() {
       <div class="flex flex-col text-2xl border-t-2 pt-4">
         <div v-for="(value, key) in fields" class="justify-between flex">
           <p class="text-muted-foreground text-nowrap">{{ key }}:</p>
-          <CopyText class="font-secondary" :text="value" align-button="left"/>
+          <CopyText class="font-secondary" :text="value.val" align-button="left"/>
+          <p v-if="(value as any).names" class="text-xs">({{ (value as any).names[value.val] }})</p>
         </div>
       </div>
     </CardContent>

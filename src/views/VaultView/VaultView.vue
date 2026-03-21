@@ -54,13 +54,15 @@ watch([offset, ascendingOrder], LoadNotes)
 </script>
 
 <template>
+  <!-- TODO: message if vault is empty -->
   <div class="flex flex-col items-start min-h-full w-full">
     <div class="flex-center w-full">
       <div class="relative">
         <Pagination class="w-min" v-if="paginationRequired" v-model="offset" :itemsPerPage="LIMIT"
                     :totalCount="totalCount"/>
 
-        <Button @click="ascendingOrder = !ascendingOrder" size="icon" variant="outline" class="absolute top-1/2 -translate-y-1/2 left-[calc(100%+8px)]">
+        <Button @click="ascendingOrder = !ascendingOrder" size="icon" variant="outline"
+                class="absolute top-1/2 -translate-y-1/2 left-[calc(100%+8px)]">
           <SafeIcon icon="lucide:chevron-up" class="transition-transform" :class="{'rotate-180':!ascendingOrder}"/>
         </Button>
       </div>

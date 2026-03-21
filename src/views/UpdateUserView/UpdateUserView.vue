@@ -89,7 +89,11 @@ watch(() => route.params.id, GetUserData)
               </Button>
             </DialogTrigger>
 
-            <UpdatePasswordDialog @success="(oldPsw, newPsw) => UpdatePassword(updatedUser.id, oldPsw, newPsw)"/>
+            <UpdatePasswordDialog :editingUserId="updatedUser.id" @success="(oldPsw, newPsw) => UpdatePassword(
+                userData.user.id,
+                updatedUser.id,
+                oldPsw,
+                newPsw)"/>
           </Dialog>
         </WithLabel>
       </UpdateUserViewCategory>

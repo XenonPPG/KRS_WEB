@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {computed} from 'vue';
 import {DialogContent, DialogHeader} from "@/components/ui/dialog";
 import {z} from 'zod';
 import {useForm} from 'vee-validate';
@@ -7,18 +8,38 @@ import {FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/compon
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {Separator} from "@/components/ui/separator";
+import {useUserData} from "@/stores/userData.ts";
+
+const props = defineProps<{
+  editingUserId: number
+}>()
+
+const userData = useUserData()
 
 // TODO: change minLength to 6
-const formSchema = z.object({
-  oldPassword: z.string().min(5, 'Минимум 6 символов').max(40, 'Слишком длинный пароль'),
-  newPassword: z.string().min(5, 'Минимум 6 символов').max(40, 'Слишком длинный пароль'),
-}).refine(data => data.oldPassword !== data.newPassword, {
-  message: 'Новый пароль должен отличаться от старого',
-  path: ['newPassword'],
+const formSchema = computed(() => {
+  const isEditingSelf = userData.user.id === props.editingUserId;
+  const bypassOldPassword = userData.isAdmin && !isEditingSelf;
+
+  const schema = z.object({
+    oldPassword: bypassOldPassword
+        ? z.string().max(40, 'Слишком длинный пароль').optional()
+        : z.string().min(5, 'Минимум 6 символов').max(40, 'Слишком длинный пароль'),
+    newPassword: z.string().min(5, 'Минимум 6 символов').max(40, 'Слишком длинный пароль'),
+  });
+
+  if (!bypassOldPassword) {
+    return schema.refine(data => data.oldPassword !== data.newPassword, {
+      message: 'Новый пароль должен отличаться от старого',
+      path: ['newPassword'],
+    });
+  }
+
+  return schema;
 });
 
 const form = useForm({
-  validationSchema: toTypedSchema(formSchema),
+  validationSchema: toTypedSchema(formSchema.value),
   initialValues: {
     oldPassword: '',
     newPassword: '',
@@ -26,14 +47,14 @@ const form = useForm({
 });
 
 const emit = defineEmits<{
-  (event: 'success', oldPassword: string, newPassword: string): void
+  (event: 'success', oldPassword: string | undefined, newPassword: string): void
 }>()
 
 async function onSubmit(event: Event) {
   event.preventDefault()
   const result = await form.validate()
   if (result.valid) {
-    emit('success', form.values.oldPassword!, form.values.newPassword!)
+    emit('success', form.values.oldPassword || undefined, form.values.newPassword!)
   }
 }
 </script>
@@ -46,7 +67,7 @@ async function onSubmit(event: Event) {
       <div class="flex flex-col gap-4">
 
         <!-- old password -->
-        <FormField v-slot="{ componentField }" name="oldPassword">
+        <FormField v-if="!userData.isAdmin || userData.user.id === props.editingUserId" v-slot="{ componentField }" name="oldPassword">
           <FormItem>
             <FormLabel>Старый пароль</FormLabel>
             <FormControl>
@@ -56,7 +77,7 @@ async function onSubmit(event: Event) {
           </FormItem>
         </FormField>
 
-        <Separator/>
+        <Separator v-if="!userData.isAdmin || userData.user.id === props.editingUserId"/>
 
         <!-- new password -->
         <FormField v-slot="{ componentField }" name="newPassword">

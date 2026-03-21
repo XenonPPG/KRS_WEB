@@ -32,6 +32,7 @@ export async function UpdateUser(
     role: UserV1UserRole | undefined,
     colorTheme: UserV1ColorTheme | undefined,
     needNotify: boolean = false) {
+    console.log(OmitNulls({id, login, role, colorTheme}))
 
     return await GenericRequest(async () => await serviceAPI.userUpdate(id.toString(), OmitNulls({
             login: login,
@@ -48,9 +49,14 @@ export async function DeleteUser(id: number) {
         "Ошибка")
 }
 
-export async function UpdatePassword(id: number, oldPassword: string, newPassword: string){
+export async function UpdatePassword(
+    senderId: number,
+    receiverId: number,
+    oldPassword: string | undefined,
+    newPassword: string) {
     return await GenericRequest(async () => await serviceAPI.userPasswordUpdate({
-        id: id,
+        senderId: senderId,
+        receiverId: receiverId,
         oldPassword: oldPassword,
         newPassword: newPassword
     }), "Пароль обновлен!", "Произошла ошибка")
