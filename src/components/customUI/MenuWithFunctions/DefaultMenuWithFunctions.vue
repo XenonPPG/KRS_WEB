@@ -9,7 +9,8 @@ const open = ref(false)
 
 const props = withDefaults(defineProps<{
       functions: MenuFunction[],
-      icon?: string
+      icon?: string,
+      disable?: number[]
     }>(),
     {
       icon: "lucide:ellipsis-vertical"
@@ -17,7 +18,7 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-  <MenuWithFunctions :functions="functions" v-model="open">
+  <MenuWithFunctions :functions="functions" :disable="disable" v-model="open">
     <Button @click="open = !open" variant="ghost" size="icon">
       <SafeIcon :icon="icon"/>
     </Button>

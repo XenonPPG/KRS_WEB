@@ -6,7 +6,8 @@ import {Card, CardContent} from "@/components/ui/card";
 import {ref} from "vue";
 
 const props = defineProps<{
-  functions: MenuFunction[]
+  functions: MenuFunction[],
+  disable?: number[]
 }>()
 
 const open = defineModel<boolean>({default: false})
@@ -26,7 +27,8 @@ function HandleClick(f: MenuFunction) {
         <div class="flex flex-col items-start justify-center w-full">
           <!-- functions -->
           <Button
-              v-for="f in functions"
+              v-for="(f, i) in functions"
+              :disabled="disable?.includes(i + 1)"
               @click="HandleClick(f)"
               variant="ghost"
               class="w-full flex justify-start"

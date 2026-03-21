@@ -59,7 +59,8 @@ async function HandleDeleteUser() {
         <DefaultMenuWithFunctions :functions="[
             new MenuFunction('lucide:pencil', 'Изменить', () => router.push(`/user/${user.id}/edit`)),
             new MenuFunction('lucide:trash', 'Удалить', HandleDeleteUser, true),
-        ]"/>
+        ]"
+        :disable="user.role == UserV1UserRole.UserRoleADMIN ? [1, 2] : []"/>
       </div>
     </CardHeader>
 

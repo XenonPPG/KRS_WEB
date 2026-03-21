@@ -100,7 +100,7 @@ watch(() => route.params.id, GetUserData)
                    position="bottom"
                    labelClass="text-destructive h-0 w-max">
           <WithLabel label="Роль" position="top">
-            <UserRoleSelect v-model="updatedUser.role"/>
+            <UserRoleSelect v-model="updatedUser.role" :editingUser="user"/>
           </WithLabel>
         </WithLabel>
       </UpdateUserViewCategory>
