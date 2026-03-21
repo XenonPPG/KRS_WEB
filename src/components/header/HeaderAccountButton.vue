@@ -11,6 +11,7 @@ import {InitialLogin} from "@/api/initialLogin.ts";
 import {Logout} from "@/api/controllers/auth.controller.ts";
 import MenuWithFunctions from "@/components/customUI/MenuWithFunctions/MenuWithFunctions.vue";
 import {MenuFunction} from "@/components/customUI/MenuWithFunctions/MenuFunction.ts";
+import {useCommonDialog} from "@/stores/CommonDialog.ts";
 
 const router = useRouter()
 const route = useRoute()
@@ -25,7 +26,12 @@ function HandleClick() {
   }
 }
 
+const dialog = useCommonDialog()
+
 async function HandleLogout() {
+  const confirm = await dialog.BoolDialogResults('Подтверждение', 'Вы точно хотите выйти из аккаунта?')
+  if (!confirm) return
+
   await Logout()
 
   userData.Logout()

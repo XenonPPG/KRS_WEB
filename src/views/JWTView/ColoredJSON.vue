@@ -19,7 +19,7 @@ function SplitPair(pair: string): string[] {
 <template>
   <p>{<br/>
     <span v-for="(l, _) in lines" class="ml-4">
-      <span class="text-indigo-300">{{ SplitPair(l)[0] }}:</span> {{ SplitPair(l)[1]}},
+      <span class="text-purple-400">{{ SplitPair(l)[0] }}:</span> {{ SplitPair(l)[1]}},
       <br/>
     </span>
     }

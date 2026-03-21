@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {Icon, loadIcon} from "@iconify/vue"
 import {Skeleton} from "@/components/ui/skeleton";
-import {onMounted, ref} from "vue";
+import {defineAsyncComponent, onMounted, ref} from "vue";
 
 const props = defineProps<{
   icon: string
@@ -12,9 +12,13 @@ onMounted(async () => {
   await loadIcon(props.icon)
   loaded.value = true
 })
+
+defineOptions({inheritAttrs: false})
 </script>
 
 <template>
-  <Icon v-if="loaded" :icon="icon"/>
-  <Skeleton v-else class="rounded-full"/>
+  <span class="inline-flex">
+    <Icon v-if="loaded" v-bind="$attrs" :icon="icon"/>
+    <Skeleton v-else class="rounded-full w-[1em] h-[1em]"/>
+  </span>
 </template>

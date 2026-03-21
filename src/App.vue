@@ -10,6 +10,9 @@ import LoadingOverlay from "@/components/LoadingOverlay.vue";
 import CircleButton from "@/components/customUI/CircleButton.vue";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
 import WithTooltip from "@/components/customUI/WithTooltip.vue";
+import {CreateUser} from "@/api/controllers/user/user.controller.ts";
+import {UserV1ColorTheme} from "@/api/gen/Api.ts";
+import CommonDialog from "@/components/CommonDialog.vue";
 
 // update title
 const router = useRouter();
@@ -39,11 +42,12 @@ router.afterEach(() => {
     </div>
 
     <Toaster/>
+    <CommonDialog/>
 
     <Footer/>
   </div>
 
-  <div v-if="userData.loggedIn" class="absolute bottom-5 right-5">
+  <div v-if="userData.loggedIn" class="fixed bottom-5 right-5">
     <WithTooltip text="Новая заметка">
       <CircleButton variant="default" class="size-15" as-child>
         <RouterLink to="/note">

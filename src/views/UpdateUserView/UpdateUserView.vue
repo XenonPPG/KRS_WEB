@@ -20,6 +20,7 @@ import UpdatePasswordDialog from "@/views/UpdateUserView/UpdatePasswordDialog.vu
 const route = useRoute()
 const userData = useUserData()
 const user = ref<User>(EmptyUser)
+const updatedUser = ref<User>(EmptyUser)
 const id = computed(() => parseInt(route.params.id as string))
 
 async function GetUserData() {
@@ -32,27 +33,32 @@ async function GetUserData() {
     return
   }
 
-  if(u.id != userData.user.id && userData.user.role != UserV1UserRole.UserRoleADMIN){
+  if (u.id != userData.user.id && userData.user.role != UserV1UserRole.UserRoleADMIN) {
     await PushUnauthorized()
   }
 
   user.value = u
+  updatedUser.value = JSON.parse(JSON.stringify(u))
 }
 
 async function UpdateUserRequest() {
-  console.log('role value:', user.value.role, typeof user.value.role)
-  console.log('sending role:', user.value.role, typeof user.value.role)
+  console.log('role value:', updatedUser.value.role, typeof updatedUser.value.role)
+  console.log('sending role:', updatedUser.value.role, typeof updatedUser.value.role)
 
   const result = await UpdateUser(
-      userData.user.id,
-      user.value.login,
-      user.value.role,
-      undefined,
+      updatedUser.value.id,
+      updatedUser.value.login,
+      updatedUser.value.role,
+      updatedUser.value.colorTheme,
       true)
 
   if (!IsSuccessful(result.status)) return
 
-  userData.user = user.value
+  user.value = JSON.parse(JSON.stringify(updatedUser.value))
+
+  if (user.value.id == userData.user.id) {
+    userData.user = user.value
+  }
 }
 
 onMounted(GetUserData)
@@ -64,16 +70,16 @@ watch(() => route.params.id, GetUserData)
     <!-- pfp and login -->
     <div class="flex-center flex-col gap-5 self-stretch">
       <div class="flex-center size-100 rounded-full border-2 bg-muted-foreground/5">
-        <SafeIcon icon="lucide:user" class="size-[50%]"/>
+        <SafeIcon icon="lucide:user" class="size-50"/>
       </div>
 
-      <h1>{{ user?.login }}</h1>
+      <h1>{{ updatedUser?.login }}</h1>
     </div>
 
     <!-- settings -->
     <div class="flex flex-col gap-10">
       <UpdateUserViewCategory category="Учетная запись">
-        <InputWithLabel label="Логин" v-model="user.login"/>
+        <InputWithLabel label="Логин" v-model="updatedUser.login"/>
 
         <WithLabel label="Пароль" position="top">
           <Dialog>
@@ -83,18 +89,18 @@ watch(() => route.params.id, GetUserData)
               </Button>
             </DialogTrigger>
 
-            <UpdatePasswordDialog @success="(oldPsw, newPsw) => UpdatePassword(userData.user.id, oldPsw, newPsw)"/>
+            <UpdatePasswordDialog @success="(oldPsw, newPsw) => UpdatePassword(updatedUser.id, oldPsw, newPsw)"/>
           </Dialog>
         </WithLabel>
       </UpdateUserViewCategory>
 
       <UpdateUserViewCategory category="Права">
         <WithLabel class="flex w-full"
-                   :label="user.role < userData.user.role ? '* Выбранная роль имеет меньше прав' : ''"
+                   :label="updatedUser.role < user.role ? '* Выбранная роль имеет меньше прав' : ''"
                    position="bottom"
                    labelClass="text-destructive h-0 w-max">
           <WithLabel label="Роль" position="top">
-            <UserRoleSelect v-model="user.role"/>
+            <UserRoleSelect v-model="updatedUser.role"/>
           </WithLabel>
         </WithLabel>
       </UpdateUserViewCategory>
@@ -102,8 +108,7 @@ watch(() => route.params.id, GetUserData)
       <UpdateUserViewCategory category="Другое">
         <WithLabel label="Цветовая тема" position="top">
           <EasySelect
-              @update:model-value="userData.SetColorTheme"
-              v-model="user.colorTheme"
+              v-model="updatedUser.colorTheme"
               :items="{
             'Система':UserV1ColorTheme.ColorThemeAUTO,
             'Светлая':UserV1ColorTheme.ColorThemeLIGHT,
@@ -112,7 +117,7 @@ watch(() => route.params.id, GetUserData)
         </WithLabel>
       </UpdateUserViewCategory>
 
-      <Button @click="UpdateUserRequest" :disabled="JSON.stringify(userData.user) === JSON.stringify(user)"
+      <Button @click="UpdateUserRequest" :disabled="JSON.stringify(user) === JSON.stringify(updatedUser)"
               class="w-min px-10">Сохранить
       </Button>
     </div>

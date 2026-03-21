@@ -10,14 +10,23 @@ export async function GenericRequest(
     const loading = useGlobalLoading()
     loading.loading = true
 
-    let error: boolean
+    let error = false
     let result: any
 
-    try {
-        result = await func()
-        error = !IsSuccessful(result.status)
-    } catch {
-        error = true
+    for(let i = 0; i < 3; i++) {
+        error = false
+
+        try {
+            result = await func()
+            error = !IsSuccessful(result.status)
+        } catch(e: any) {
+            error = true
+            console.error(e)
+        }
+
+        if (!error) break
+
+        await new Promise(resolve => setTimeout(resolve, 500))
     }
 
     loading.loading = false

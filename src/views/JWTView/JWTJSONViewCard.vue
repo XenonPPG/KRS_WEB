@@ -47,7 +47,7 @@ const buttonFunctions = [
       <div class="col-start-1 row-start-1 h-fit" :class="{'invisible pointer-events-none': !tableView}">
         <table class="w-full border-collapse">
           <tr v-for="(value, key) in JSON.parse(jsonText)" :key="key" class="border-2">
-            <th class="border-2 text-indigo-300 p-1">{{ key }}</th>
+            <th class="border-2 text-purple-400 p-1">{{ key }}</th>
             <th class="border-2 p-1">{{ value }}</th>
             <th class="border-2 p-1" v-if="props.description">{{ props.description[key] }}</th>
           </tr>
