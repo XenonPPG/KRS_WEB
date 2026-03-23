@@ -5,7 +5,7 @@ export async function Login(login: string, password: string) {
     return await GenericRequest(async () => await serviceAPI.authLoginCreate({
         login: login,
         password: password
-    }))
+    }), undefined, undefined, 1)
 }
 
 export async function Logout() {

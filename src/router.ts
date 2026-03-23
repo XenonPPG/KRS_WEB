@@ -8,7 +8,6 @@ import {UserV1UserRole} from "@/api/gen/Api.ts";
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-        // TODO: replace main page with vault, replace this with AboutView
         {
             path: '/',
             name: 'KRS',

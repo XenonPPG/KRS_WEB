@@ -11,6 +11,7 @@ import {useUserData} from "@/stores/userData.ts";
 import {IsSuccessful} from "@/scripts/utils.ts";
 import {Login} from "@/api/controllers/auth.controller.ts";
 import {CreateUser} from "@/api/controllers/user/user.controller.ts";
+import {toast} from "vue-sonner";
 
 const formSchema = z.object({
   login: z.string().min(2, "Минимум 2 символа").max(50, "Слишком длинное имя"),
@@ -31,6 +32,8 @@ const form = useForm({
 });
 
 const onSubmit = form.handleSubmit(async (values) => {
+  await form.validate()
+
   if (props.login) {
     await HandleLogin()
   } else {
@@ -50,14 +53,24 @@ const userData = useUserData()
 
 async function HandleLogin() {
   const result = await Login(form.values.login ?? '', form.values.password ?? '')
-  //TODO: repeat request few times and display error
-  if (!IsSuccessful(result.status)) return
+
+  form.resetField("password")
+  if (!result || !IsSuccessful(result.status)) {
+    form.setErrors({
+      login: 'Неверный логин или пароль',
+      password: 'Неверный логин или пароль'
+    })
+    form.setFieldTouched('password', true)
+    return
+  }
 
   userData.loggedIn = true
   const user = userData.ParseUserData(result.data.user)
-  if(!user) return
+  if (!user) return
 
   userData.user = user
+
+  form.resetForm()
 }
 
 async function Register() {
@@ -66,7 +79,6 @@ async function Register() {
       form.values.password ?? '',
       userData.user.colorTheme)
 
-  //TODO: repeat request few times and display error
   if (!IsSuccessful(result.status)) return
 
   await HandleLogin()

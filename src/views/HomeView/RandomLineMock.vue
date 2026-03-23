@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import {ref} from "vue";
 
-// TODO: add braille font to assets
-
 const props = defineProps<{
   length: number
 }>()

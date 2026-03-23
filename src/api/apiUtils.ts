@@ -5,7 +5,8 @@ import {useGlobalLoading} from "@/stores/loading.ts";
 export async function GenericRequest(
     func: Function,
     successMessage: string | null = null,
-    errorMessage: string | null = null) {
+    errorMessage: string | null = null,
+    repeat: number = 3) {
 
     const loading = useGlobalLoading()
     loading.loading = true
@@ -13,7 +14,7 @@ export async function GenericRequest(
     let error = false
     let result: any
 
-    for(let i = 0; i < 3; i++) {
+    for(let i = 0; i < repeat; i++) {
         error = false
 
         try {

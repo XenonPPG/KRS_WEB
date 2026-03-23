@@ -30,6 +30,7 @@ router.afterEach(() => {
   }
 })
 
+// TODO: refresh token after it expires
 </script>
 
 <template>

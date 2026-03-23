@@ -1,13 +1,28 @@
-<!-- @formatter:off -->
-# KRS WEB
+---
+title: API v
+language_tabs:
+  - shell: Shell
+  - http: HTTP
+  - javascript: JavaScript
+  - ruby: Ruby
+  - python: Python
+  - php: PHP
+  - java: Java
+  - go: Go
+toc_footers: []
+includes: []
+search: true
+highlight_theme: darkula
+headingLevel: 2
 
 ---
 
-## Фронтенд для системы KRS
-### Сайт, написанный на Vue3 с использованием библиотеки компонентов Shadcn
+<!-- Generator: Widdershins v4.0.1 -->
 
----
-# Документация
+<h1 id=""> v</h1>
+
+> Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
+
 <h1 id="-authentication">Authentication</h1>
 
 ## post__api_auth_login

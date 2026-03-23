@@ -8,6 +8,11 @@
     src: url('./assets/JetBrainsMono-Regular.ttf');
 }
 
+@font-face {
+    font-family: 'Braille';
+    src: url('./assets/Braille-Regular.ttf');
+}
+
 @utility font-secondary {
     font-family: 'JetBrains Mono', serif;
 }

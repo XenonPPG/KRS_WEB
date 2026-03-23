@@ -15,6 +15,8 @@ const notes = ref<NoteModel[]>([])
 const totalCount = ref(0)
 const ascendingOrder = ref(true)
 
+const isEmpty = computed(() => notes.value?.length == 0)
+
 async function LoadNotes() {
   const result = await GetAllNotes(LIMIT, (offset.value - 1) * LIMIT, ascendingOrder.value)
 
@@ -54,22 +56,36 @@ watch([offset, ascendingOrder], LoadNotes)
 </script>
 
 <template>
-  <!-- TODO: message if vault is empty -->
-  <div class="flex flex-col items-start min-h-full w-full">
+  <div class="flex-center flex-col flex-1 w-full">
     <div class="flex-center w-full">
-      <div class="relative">
+      <div class="relative min-h-7">
         <Pagination class="w-min" v-if="paginationRequired" v-model="offset" :itemsPerPage="LIMIT"
                     :totalCount="totalCount"/>
 
-        <Button @click="ascendingOrder = !ascendingOrder" size="icon" variant="outline"
+        <Button v-if="notes.length > 1" @click="ascendingOrder = !ascendingOrder" size="icon" variant="outline"
                 class="absolute top-1/2 -translate-y-1/2 left-[calc(100%+8px)]">
           <SafeIcon icon="lucide:chevron-up" class="transition-transform" :class="{'rotate-180':!ascendingOrder}"/>
         </Button>
       </div>
     </div>
 
-    <div class="grid grid-cols-4 w-full gap-2 p-3 flex-1">
+    <div class="w-full gap-2 p-3 flex-1"
+         :class="{
+      'flex-center': isEmpty,
+      'grid grid-cols-4': !isEmpty,
+    }">
       <Note @delete="HandleDeleteNote" v-for="note in notes" :note="note"/>
+
+      <!-- empty state -->
+      <div v-if="isEmpty" class="flex-center flex-col gap-7">
+        <h1 class="animate-bounce">Пока пусто</h1>
+        <Button class="px-10" as-child>
+          <RouterLink to="/note">
+            <SafeIcon icon="lucide:square-pen"/>
+            Создать
+          </RouterLink>
+        </Button>
+      </div>
     </div>
 
     <Pagination v-if="paginationRequired" v-model="offset" :itemsPerPage="LIMIT" :totalCount="totalCount"/>

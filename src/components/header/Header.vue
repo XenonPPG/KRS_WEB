@@ -31,11 +31,11 @@ const userData = useUserData()
   <div class="w-full flex items-center justify-between h-15 p-5 gap-2">
     <div class="flex-center gap-2 h-5">
       <HeaderLink link="/" class="font-medium"/>
-      <Separator orientation="vertical"/>
+      <Separator v-if="userData.loggedIn" orientation="vertical"/>
 
       <!-- other routes -->
       <HeaderLink link="/vault"/>
-      <HeaderLink v-if="userData.loggedIn" link="/jwt"/>
+      <HeaderLink link="/jwt"/>
       <HeaderLink v-if="userData.user.role === UserV1UserRole.UserRoleADMIN" link="/users"/>
     </div>
 

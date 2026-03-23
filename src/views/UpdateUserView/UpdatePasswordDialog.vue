@@ -16,7 +16,6 @@ const props = defineProps<{
 
 const userData = useUserData()
 
-// TODO: change minLength to 6
 const formSchema = computed(() => {
   const isEditingSelf = userData.user.id === props.editingUserId;
   const bypassOldPassword = userData.isAdmin && !isEditingSelf;
@@ -24,8 +23,8 @@ const formSchema = computed(() => {
   const schema = z.object({
     oldPassword: bypassOldPassword
         ? z.string().max(40, 'Слишком длинный пароль').optional()
-        : z.string().min(5, 'Минимум 6 символов').max(40, 'Слишком длинный пароль'),
-    newPassword: z.string().min(5, 'Минимум 6 символов').max(40, 'Слишком длинный пароль'),
+        : z.string().min(6, 'Минимум 6 символов').max(40, 'Слишком длинный пароль'),
+    newPassword: z.string().min(6, 'Минимум 6 символов').max(40, 'Слишком длинный пароль'),
   });
 
   if (!bypassOldPassword) {

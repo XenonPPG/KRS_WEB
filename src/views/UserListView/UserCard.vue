@@ -12,6 +12,7 @@ import router from "@/router.ts";
 import {useCommonDialog} from "@/stores/CommonDialog.ts";
 import {DeleteUser} from "@/api/controllers/user/user.controller.ts";
 import {IsSuccessful} from "@/scripts/utils.ts";
+import UserCardField from "@/views/UserListView/UserCardField.vue";
 
 const props = defineProps<{
   user: User
@@ -74,8 +75,9 @@ async function HandleDeleteUser() {
       <div class="flex flex-col text-2xl border-t-2 pt-4">
         <div v-for="(value, key) in fields" class="justify-between flex">
           <p class="text-muted-foreground text-nowrap">{{ key }}:</p>
-          <CopyText class="font-secondary" :text="value.val" align-button="left"/>
-          <p v-if="(value as any).names" class="text-xs">({{ (value as any).names[value.val] }})</p>
+          <div class="relative flex-center flex-col">
+            <UserCardField :value="value"/>
+          </div>
         </div>
       </div>
     </CardContent>
