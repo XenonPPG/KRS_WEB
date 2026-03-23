@@ -42,9 +42,6 @@ async function GetUserData() {
 }
 
 async function UpdateUserRequest() {
-  console.log('role value:', updatedUser.value.role, typeof updatedUser.value.role)
-  console.log('sending role:', updatedUser.value.role, typeof updatedUser.value.role)
-
   const result = await UpdateUser(
       updatedUser.value.id,
       updatedUser.value.login,
