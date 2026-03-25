@@ -14,6 +14,7 @@ export default defineConfig({
         vue(),
         // vueDevTools(),
     ],
+    base: '/KRS_WEB/',
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
