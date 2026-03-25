@@ -40,8 +40,8 @@ watch(() => userData.user.colorTheme, () => {
       <CircleButton
           v-for="(val, key, i) in colorThemeIcons"
           @click="() => userData.SetColorTheme(Number(key))"
-          :variant="userData.user.colorTheme == key ? 'default' : 'outline'"
-          :class="{'bg-background!':userData.user.colorTheme != key}">
+          :variant="userData.user.colorTheme.toString() == key.toString() ? 'default' : 'outline'"
+          :class="{'bg-background!':userData.user.colorTheme.toString() != key.toString()}">
 
         <SafeIcon :icon="val"/>
       </CircleButton>
