@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router'
 import {useUserData} from "@/stores/userData.ts";
 import {InitialLogin} from "@/api/initialLogin.ts";
 import {pinia} from "@/main.ts";
@@ -6,7 +6,7 @@ import {useGlobalLoading} from "@/stores/loading.ts";
 import {UserV1UserRole} from "@/api/gen/Api.ts";
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHashHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
