@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {createPinia} from 'pinia'
+import { pinia } from '@/pinia.ts'
 
 import App from './App.vue'
 import router from './router.ts'
@@ -9,7 +9,6 @@ import './style.css'
 import {ClickOutside} from "@/scripts/ClickOutside.directive.ts";
 
 const app = createApp(App)
-const pinia = createPinia()
 
 app.directive('click-outside', ClickOutside)
 

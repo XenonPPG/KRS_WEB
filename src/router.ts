@@ -1,7 +1,7 @@
 import {createRouter, createWebHashHistory, createWebHistory} from 'vue-router'
 import {useUserData} from "@/stores/userData.ts";
 import {InitialLogin} from "@/api/initialLogin.ts";
-import {pinia} from "@/main.ts";
+import { pinia } from '@/pinia.ts'
 import {useGlobalLoading} from "@/stores/loading.ts";
 import {UserV1UserRole} from "@/api/gen/Api.ts";
 

@@ -5,13 +5,10 @@ import {useRoute, useRouter} from "vue-router";
 import {Toaster} from "vue-sonner";
 import 'vue-sonner/style.css'
 import {useUserData} from "@/stores/userData.ts";
-import {useJWTData} from "@/stores/jwtData.ts";
 import LoadingOverlay from "@/components/LoadingOverlay.vue";
 import CircleButton from "@/components/customUI/CircleButton.vue";
 import SafeIcon from "@/components/customUI/SafeIcon.vue";
 import WithTooltip from "@/components/customUI/WithTooltip.vue";
-import {CreateUser} from "@/api/controllers/user/user.controller.ts";
-import {UserV1ColorTheme} from "@/api/gen/Api.ts";
 import CommonDialog from "@/components/CommonDialog.vue";
 
 // update title
@@ -19,7 +16,6 @@ const router = useRouter();
 const route = useRoute();
 
 const userData = useUserData()
-const jwtData = useJWTData()
 
 router.afterEach(() => {
   // change name
