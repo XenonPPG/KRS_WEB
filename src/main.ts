@@ -1,11 +1,11 @@
 import {createApp} from 'vue'
 import { pinia } from '@/pinia.ts'
 
-import App from './App.vue'
-import router from './router.ts'
+import App from '@/App.vue'
+import router from '@/router.ts'
 import {MotionPlugin} from "@vueuse/motion";
 
-import './style.css'
+import '@/style.css'
 import {ClickOutside} from "@/scripts/ClickOutside.directive.ts";
 
 const app = createApp(App)
