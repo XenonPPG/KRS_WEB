@@ -23,6 +23,8 @@ const user = ref<User>(EmptyUser)
 const updatedUser = ref<User>(EmptyUser)
 const id = computed(() => parseInt(route.params.id as string))
 
+const dialogOpen = ref(false)
+
 async function GetUserData() {
   const result = await GetUser(id.value)
   console.log('raw role:', result.data.user.role, typeof result.data.user.role)
@@ -58,6 +60,16 @@ async function UpdateUserRequest() {
   }
 }
 
+async function HandleUpdatePassword(oldPsw: string | undefined, newPsw: string) {
+  const result = await UpdatePassword(
+      userData.user.id,
+      updatedUser.value.id,
+      oldPsw,
+      newPsw
+  )
+  dialogOpen.value = !(result.status && IsSuccessful(result.status))
+}
+
 onMounted(GetUserData)
 watch(() => route.params.id, GetUserData)
 </script>
@@ -79,18 +91,14 @@ watch(() => route.params.id, GetUserData)
         <InputWithLabel label="Логин" v-model="updatedUser.login"/>
 
         <WithLabel label="Пароль" position="top">
-          <Dialog>
-            <DialogTrigger as-child>
+          <Dialog :open="dialogOpen" @update:open="dialogOpen = $event">
+            <DialogTrigger as-child @click="dialogOpen = true">
               <Button variant="outline" class="flex justify-start">
                 Сменить пароль
               </Button>
             </DialogTrigger>
 
-            <UpdatePasswordDialog :editingUserId="updatedUser.id" @success="(oldPsw, newPsw) => UpdatePassword(
-                userData.user.id,
-                updatedUser.id,
-                oldPsw,
-                newPsw)"/>
+            <UpdatePasswordDialog v-model="dialogOpen" :editingUserId="updatedUser.id" @success="HandleUpdatePassword"/>
           </Dialog>
         </WithLabel>
       </UpdateUserViewCategory>

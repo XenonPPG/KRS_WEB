@@ -15,6 +15,7 @@ const props = defineProps<{
 }>()
 
 const userData = useUserData()
+const open = defineModel<boolean>()
 
 const formSchema = computed(() => {
   const isEditingSelf = userData.user.id === props.editingUserId;
