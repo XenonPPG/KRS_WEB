@@ -16,5 +16,4 @@ app.use(pinia)
 app.use(router)
 app.use(MotionPlugin)
 
-export {pinia}
 app.mount('#app')

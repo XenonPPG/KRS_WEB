@@ -70,6 +70,10 @@ async function HandleUpdatePassword(oldPsw: string | undefined, newPsw: string) 
   dialogOpen.value = !(result.status && IsSuccessful(result.status))
 }
 
+const canRedact = computed(() => user.value.id === userData.user.id
+    || (user.value.role !== UserV1UserRole.UserRoleADMIN
+        && userData.user.role as UserV1UserRole == UserV1UserRole.UserRoleADMIN))
+
 onMounted(GetUserData)
 watch(() => route.params.id, GetUserData)
 </script>
@@ -88,12 +92,13 @@ watch(() => route.params.id, GetUserData)
     <!-- settings -->
     <div class="flex flex-col gap-10">
       <UpdateUserViewCategory category="Учетная запись">
-        <InputWithLabel label="Логин" v-model="updatedUser.login"/>
+        <InputWithLabel :disabled="!canRedact" label="Логин" v-model="updatedUser.login"/>
 
         <WithLabel label="Пароль" position="top">
           <Dialog :open="dialogOpen" @update:open="dialogOpen = $event">
             <DialogTrigger as-child @click="dialogOpen = true">
-              <Button variant="outline" class="flex justify-start">
+              <Button :disabled="!canRedact" variant="outline"
+                      class="flex justify-start disabled:hover:cursor-not-allowed">
                 Сменить пароль
               </Button>
             </DialogTrigger>
@@ -117,6 +122,7 @@ watch(() => route.params.id, GetUserData)
       <UpdateUserViewCategory category="Другое">
         <WithLabel label="Цветовая тема" position="top">
           <EasySelect
+              :disabled="!canRedact"
               v-model="updatedUser.colorTheme"
               :items="{
             'Система':UserV1ColorTheme.ColorThemeAUTO,

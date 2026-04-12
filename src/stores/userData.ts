@@ -45,8 +45,9 @@ export const useUserData = defineStore('user data', () => {
 
     async function SetColorTheme(theme: UserV1ColorTheme) {
         user.value.colorTheme = theme
+        if (!loggedIn.value) return
 
-        await UpdateUser(user.value.id, undefined, undefined, theme)
+        await UpdateUser(user.value.id, user.value.login, user.value.role, theme)
     }
 
     return {user, loggedIn, initialized, isAdmin, Logout, ParseUserData, SetColorTheme}

@@ -46,13 +46,11 @@ async function HandleClick() {
   if (id.value) {
     if (!id.value) return;
     const intId = parseInt(typeof id.value === 'string' ? id.value : (id.value[0] as string))
-    await UpdateNote(intId, title.value, content.value)
-
-    router.push('/note')
+    await UpdateNote(intId, content.value, title.value)
   } else {
     await CreateNote(title.value, content.value)
+    ClearFields()
   }
-  ClearFields()
 }
 
 watch(id, () => {

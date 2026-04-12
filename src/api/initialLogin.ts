@@ -3,7 +3,7 @@ import {serviceAPI} from "@/api/InitAPI.ts";
 import {IsSuccessful} from "@/scripts/utils.ts";
 import {toast} from "vue-sonner";
 import {useUserData} from "@/stores/userData.ts";
-import {pinia} from "@/main.ts";
+import {pinia} from "@/pinia.ts";
 import {GetUser} from "@/api/controllers/user/user.controller.ts";
 
 export async function InitialLogin() {

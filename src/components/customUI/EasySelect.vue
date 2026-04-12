@@ -10,13 +10,14 @@ import {
 const props = defineProps<{
   items: any[] | Record<any, any>,
   disable?: any[],
+  disabled?: boolean,
   placeholder?: any
 }>()
 
 const model = defineModel<any>()
 
 function IsDisabled(item: any): boolean {
-  return !!props.disable?.includes(item)
+  return  props.disabled || !!props.disable?.includes(item)
 }
 
 function getCurrentKey(): string {
@@ -35,7 +36,7 @@ function onUpdate(key: string) {
 </script>
 
 <template>
-  <Select :model-value="getCurrentKey()" @update:model-value="(val) => onUpdate(val!.toString())">
+  <Select :disabled="disabled" :model-value="getCurrentKey()" @update:model-value="(val) => onUpdate(val!.toString())">
     <SelectTrigger class="w-full">
       <SelectValue :placeholder="props.placeholder?.toString()"/>
     </SelectTrigger>
