@@ -24,7 +24,7 @@ export async function GetNote(id: number) {
 }
 
 export async function UpdateNote(id: number, content: string | undefined, title: string | undefined) {
-    return await GenericRequest(async () => await serviceAPI.noteUpdate(OmitNulls({
+    return await GenericRequest(async () => await serviceAPI.notePartialUpdate(OmitNulls({
         id: id,
         content: content,
         title: title

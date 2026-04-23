@@ -34,7 +34,7 @@ export async function UpdateUser(
     needNotify: boolean = false) {
     console.log(OmitNulls({id, login, role, colorTheme}))
 
-    return await GenericRequest(async () => await serviceAPI.userUpdate(id.toString(), OmitNulls({
+    return await GenericRequest(async () => await serviceAPI.userPartialUpdate(id.toString(), OmitNulls({
             login: login,
             role: role,
             colorTheme: colorTheme !== undefined ? colorTheme : undefined

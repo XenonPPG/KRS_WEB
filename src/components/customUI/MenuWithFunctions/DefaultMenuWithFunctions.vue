@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<{
 <template>
   <MenuWithFunctions :functions="functions" :disable="disable" v-model="open">
     <Button @click="open = !open" variant="ghost" size="icon">
-      <SafeIcon :icon="icon"/>
+      <SafeIcon :icon="icon!"/>
     </Button>
   </MenuWithFunctions>
 </template>

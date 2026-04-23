@@ -424,26 +424,6 @@ export class Api<
       }),
 
     /**
-     * @description Updates an existing note for the authenticated user
-     *
-     * @tags notes
-     * @name NoteUpdate
-     * @summary Update a note
-     * @request PUT:/api/note
-     * @secure
-     */
-    noteUpdate: (note: NoteV1UpdateNoteRequest, params: RequestParams = {}) =>
-      this.request<Record<string, any>, Record<string, any>>({
-        path: `/api/note`,
-        method: "PUT",
-        body: note,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description Creates a new note for the authenticated user
      *
      * @tags notes
@@ -456,6 +436,29 @@ export class Api<
       this.request<Record<string, any>, Record<string, any>>({
         path: `/api/note`,
         method: "POST",
+        body: note,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates an existing note for the authenticated user
+     *
+     * @tags notes
+     * @name NotePartialUpdate
+     * @summary Update a note
+     * @request PATCH:/api/note
+     * @secure
+     */
+    notePartialUpdate: (
+      note: NoteV1UpdateNoteRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<Record<string, any>, Record<string, any>>({
+        path: `/api/note`,
+        method: "PATCH",
         body: note,
         secure: true,
         type: ContentType.Json,
@@ -593,30 +596,6 @@ export class Api<
       }),
 
     /**
-     * @description Updates an existing user's information
-     *
-     * @tags users
-     * @name UserUpdate
-     * @summary Update a user
-     * @request PUT:/api/user/{id}
-     * @secure
-     */
-    userUpdate: (
-      id: string,
-      request: UserV1UpdateUserRequest,
-      params: RequestParams = {},
-    ) =>
-      this.request<Record<string, any>, Record<string, any>>({
-        path: `/api/user/${id}`,
-        method: "PUT",
-        body: request,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
      * @description Deletes a specific user by ID
      *
      * @tags users
@@ -629,6 +608,30 @@ export class Api<
       this.request<Record<string, any>, Record<string, any>>({
         path: `/api/user/${id}`,
         method: "DELETE",
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * @description Updates an existing user's information
+     *
+     * @tags users
+     * @name UserPartialUpdate
+     * @summary Update a user
+     * @request PATCH:/api/user/{id}
+     * @secure
+     */
+    userPartialUpdate: (
+      id: string,
+      request: UserV1UpdateUserRequest,
+      params: RequestParams = {},
+    ) =>
+      this.request<Record<string, any>, Record<string, any>>({
+        path: `/api/user/${id}`,
+        method: "PATCH",
+        body: request,
         secure: true,
         type: ContentType.Json,
         format: "json",
